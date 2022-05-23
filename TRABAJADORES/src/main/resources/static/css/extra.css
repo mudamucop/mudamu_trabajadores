@@ -1,0 +1,39 @@
+:root {
+    --bs-primary: #e30d0d !important;
+    --bs-secondary: #6c757d !important;
+    --bs-success: #198754 !important;
+    --bs-info: #0dcaf0 !important;
+    --bs-warning: #ffc107 !important;
+    --bs-danger: #dc3545 !important;
+    --bs-body-color: #e30d0d !important;
+    --bs-body-bg: #fff !important;
+}
+
+.hiddenRow {
+    padding: 0 !important;
+}
+
+tr.hide-table-padding td {
+    padding: 0;
+}
+
+.expand-button {
+    position: relative;
+}
+
+.accordion-toggle .expand-button:after {
+    position: absolute;
+    left: .75rem;
+    top: 50%;
+    transform: translate(0, -50%);
+    content: '-';
+}
+
+.accordion-toggle.collapsed .expand-button:after {
+    content: '+';
+}
+
+body {
+    padding-top: 5.5rem !important;
+    font-family: 'Noto Sans', sans-serif !important;
+}
