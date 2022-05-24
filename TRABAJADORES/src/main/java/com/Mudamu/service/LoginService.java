@@ -14,6 +14,8 @@ public interface LoginService {
 
 	public Object getCitas(Medico user);
 
+	public Object getCitasAdministrativo();
+
     public Medico loadUserByUsername(String username);
 
 	public Object getPredicciones(Medico user);

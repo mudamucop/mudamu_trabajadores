@@ -113,4 +113,12 @@ public class LoginServiceImpl implements LoginService{
 
 		return medico;
 	}
+
+
+	@Override
+	public Object getCitasAdministrativo() {
+		CitasMedico citas = citaRESTClient.getCitasAdministrativo();
+		
+		return citas.getListaCD();
+	}
 }
