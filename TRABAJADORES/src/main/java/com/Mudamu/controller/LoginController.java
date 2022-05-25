@@ -62,12 +62,10 @@ public class LoginController {
 		} else {
 			try {
 				userService.createUser(user);
-				
-
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 			}
-			url = "login";
+			url = "redirect:/pacPage";
 		}
 		return url;
 	}

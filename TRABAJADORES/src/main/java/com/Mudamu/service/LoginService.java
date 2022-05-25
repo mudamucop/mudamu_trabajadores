@@ -19,5 +19,7 @@ public interface LoginService {
     public Medico loadUserByUsername(String username);
 
 	public Object getPredicciones(Medico user);
+
+    public void updateCitaSolicitada(int prediccionID, int categoriaID);
 }
 

@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
@@ -40,7 +41,6 @@ public class TrabajadorController {
 			} else if (user.getTipo().toLowerCase().equals("administrativo")) {
 				model.addAttribute("administrativo", "active");
 				model.addAttribute("citas", userService.getCitasAdministrativo());
-				//model.addAttribute("citas", "active");
 			} else {
 				model.addAttribute("userForm", new Medico());
 				model.addAttribute("admin", "active");
@@ -63,6 +63,7 @@ public class TrabajadorController {
 		if (user.getTipo().toLowerCase().equals("medico")) {
 			model.addAttribute("predicciones", "active");
 			model.addAttribute("predicciones", userService.getPredicciones(user));
+			model.addAttribute("section", "active");
 			url = "index";
 		}
 		else url = "404";
@@ -79,10 +80,30 @@ public class TrabajadorController {
 
 		if (user.getTipo().toLowerCase().equals("administrativo")){
 			//Cita cita = new Cita();
+			model.addAttribute("administrativo", "active");
 			model.addAttribute("generate", "active");
 			url = "index";
 		} else url = "404";
 
 		return url;
+	}
+
+	@PostMapping("/requestCita")
+	public String requestCita(Model model, @RequestBody String data){
+		Integer catID = 0;
+
+		String separate = data.split("=")[1];
+		
+		String cate = data.split("=")[1].split("%2F")[1];
+		
+		if (cate.toLowerCase().equals("leve"))catID = 1;
+		else if (cate.toLowerCase().equals("moderado"))catID = 2;
+		else if (cate.toLowerCase().equals("grave"))catID = 3;
+		else catID = 4;
+
+
+		userService.updateCitaSolicitada(Integer.parseInt(data.split("=")[1].split("%2F")[0]), catID);
+
+		return "redirect:/predPag";
 	}
 }

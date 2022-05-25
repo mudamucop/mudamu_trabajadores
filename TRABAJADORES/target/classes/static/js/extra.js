@@ -63,4 +63,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
         clickable.addEventListener('click', handleClickable, false);
     });
 
+    function handleClickBotonCita(e) {
+        let fila = document.getElementById(this.getAttribute('data-parentid'));
+        let num = this.getAttribute('data-parentid').split("g")[1];
+        let cate = fila.getElementsByClassName('categoria')[0].textContent;
+
+        $.ajax({
+            url: '/requestCita',
+            type: "POST",
+            data: {'data': num+"/"+cate},
+            contentType: "application/json",
+            success: function () {
+                $("#success").modal('show');
+                setTimeout(function(){location.reload();}, 1500);
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    let botonesCita = document.querySelectorAll('.citar');
+    botonesCita.forEach(function(botonCita) {
+        botonCita.addEventListener('click', handleClickBotonCita, false);
+    });
+
 });

@@ -19,7 +19,7 @@ import com.Mudamu.rest.PrediccionRESTClient;
 import com.Mudamu.rest.UserRESTClient;
 
 @Service
-public class LoginServiceImpl implements LoginService{
+public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	UserRESTClient userRESTClient;
@@ -29,10 +29,10 @@ public class LoginServiceImpl implements LoginService{
 
 	@Autowired
 	CitaRESTClient citaRESTClient;
-	
+
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	private boolean checkUsernameAvailable(Medico user) throws Exception {
 		Medico userFound = userRESTClient.getUserName(user.getUsername());
 		if (userFound.getUsername() != null) {
@@ -40,7 +40,6 @@ public class LoginServiceImpl implements LoginService{
 		}
 		return true;
 	}
-
 
 	@Override
 	public Medico createUser(Medico user2) throws Exception {
@@ -61,29 +60,31 @@ public class LoginServiceImpl implements LoginService{
 		}
 		return user;
 	}
-	
-	protected void mapUser(Medico from,Medico to) {
+
+	protected void mapUser(Medico from, Medico to) {
 		to.setUsername(from.getUsername());
-		/*to.setName(from.getName());
-		to.setSurname(from.getSurname());
-		to.setEmail(from.getEmail());*/
+		/*
+		 * to.setName(from.getName());
+		 * to.setSurname(from.getSurname());
+		 * to.setEmail(from.getEmail());
+		 */
 	}
-	
+
 	@Override
 	public Medico getLoggedUser() throws Exception {
-		//Obtener el usuario logeado
+		// Obtener el usuario logeado
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
+
 		UserDetails loggedUser = null;
 
-		//Verificar que ese objeto traido de sesion es el usuario
+		// Verificar que ese objeto traido de sesion es el usuario
 		if (principal instanceof UserDetails) {
 			loggedUser = (UserDetails) principal;
 		}
-		
+
 		Medico myUser = userRESTClient
 				.getUserName(loggedUser.getUsername());
-		
+
 		return myUser;
 	}
 
@@ -98,27 +99,29 @@ public class LoginServiceImpl implements LoginService{
 	@Override
 	public Object getPredicciones(Medico user) {
 		Predicciones predicciones = new Predicciones();
-		
+
 		predicciones = prediccionRESTClient.getPredicciones(user);
-		
+
 		return predicciones.getListaCD();
 	}
 
-	
-
 	@Override
 	public Medico loadUserByUsername(String username) {
-		
+
 		Medico medico = userRESTClient.getUserName(username);
 
 		return medico;
 	}
 
-
 	@Override
 	public Object getCitasAdministrativo() {
 		CitasMedico citas = citaRESTClient.getCitasAdministrativo();
-		
+
 		return citas.getListaCD();
+	}
+
+	@Override
+	public void updateCitaSolicitada(int prediccionID, int categoriaID) {
+		prediccionRESTClient.updateCitaSolicitada(prediccionID, categoriaID);
 	}
 }
