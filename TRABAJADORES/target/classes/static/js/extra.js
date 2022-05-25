@@ -87,5 +87,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     botonesCita.forEach(function(botonCita) {
         botonCita.addEventListener('click', handleClickBotonCita, false);
     });
-
 });
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
