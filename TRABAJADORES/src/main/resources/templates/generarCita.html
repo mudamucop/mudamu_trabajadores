@@ -6,68 +6,88 @@
     <main class="container-fluid px-4">
         <div class="card bg-light my-4">
             <div class="card-header py-3">
+                <svg class="svg-inline--fa fa-table me-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="table" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                    <path fill="currentColor" d="M448 32C483.3 32 512 60.65 512 96V416C512 451.3 483.3 480 448 480H64C28.65 480 0 451.3 0 416V96C0 60.65 28.65 32 64 32H448zM224 256V160H64V256H224zM64 320V416H224V320H64zM288 416H448V320H288V416zM448 256V160H288V256H448z">
+                    </path>
+                </svg>Generar Cita
             </div>
-            <div>
-                <p>ID paciente:</p>
+            <div class="card-body">
+                <p>Tarjeta Sanitaria</p>
                 <form th:action="@{/loquesea}">
                     <input type="number" name="value" id="value">
-                    <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
+                    <button type="submit" class="btn btn-primary btn-sm align-top">Buscar</button>
                 </form>
-            </div>
-            <br>
-            <div class="table">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Primer Apellido</th>
-                            <th scope="col">Segundo Apellido</th>
-                            <th scope="col">Tarjeta Sanitaria</th>
-                            <th scope="col">Categoría</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="paciente: ${tarjetaList}">
-                            <div class="accordion-item">
-                                <td th:text="${paciente.nombre}">Aitor</td>
-                                <td th:text="${paciente.apellido1}">Astorga</td>
-                                <td th:text="${paciente.apellido2}">Saez de Vicuña</td>
-                                <td th:text="${paciente.tarjetaSanitaria}">12365458</td>
+                <br>
+                <div class="dataTable-container">
+                    <table id="datatablesSimple" class="dataTable-table">
+                        <thead>
+                            <tr>
+                                <th scope="col" data-sortable="" style="width: 21.1485%;"><a href="#" class="dataTable-sorter">Tarjeta Sanitaria</a></th>
+                                <th scope="col" data-sortable="" style="width: 13.1772%;"><a href="#" class="dataTable-sorter">Nombre</a></th>
+                                <th scope="col" data-sortable="" style="width: 14.5599%;"><a href="#" class="dataTable-sorter">Apellido1</a></th>
+                                <th scope="col" data-sortable="" style="width: 14.6413%;"><a href="#" class="dataTable-sorter">Apellido2</a></th>
+                                <th scope="col" data-sortable="" style="width: 21.7993%;"><a href="#" class="dataTable-sorter">Fecha de la cita</a></th>
+                                <th scope="col" data-sortable="" style="width: 14.6413%;"><a href="#" class="dataTable-sorter">Categoría</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="paciente: ${tarjetaList}">
+                                <td th:text="${paciente.tarjetaSanitaria}">123456ABC</td>
+                                <td th:text="${paciente.nombre}">joxean</td>
+                                <td th:text="${paciente.apellido1}">schmidt</td>
+                                <td th:text="${paciente.apellido2}">oztürk</td>
+                                <!-- AÑADIR TH fecha hora-->
+                                <td>2000-05-25 00:00:00</td>
+                                <!-- AÑADIR TH categoria -->
                                 <td><span class="badge bg-danger">GRAVE</span></td>
-                            </div>
-                        </tr>
-                        <tr>
-                            <div class="aling">
-                                <td>Aitor</td>
-                                <td>Astorga</td>
-                                <td>Saez de Vicuña</td>
-                                <td>1236545558</td>
+                            </tr>
+                            <!-- EJEMPLO SIN TH-->
+                            <tr>
+                                <td>123456ABC</td>
+                                <td>joxean</td>
+                                <td>schmidt</td>
+                                <td>oztürk</td>
+                                <!-- AÑADIR TH fecha hora-->
+                                <td>2000-05-25 00:00:00</td>
+                                <!-- AÑADIR TH categoria -->
                                 <td><span class="badge bg-danger">GRAVE</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col ps-0">
+                            <div class="card">
+                                <p class="card-header">Fecha de la cita</p>
+                                <div class="card-body p-3">
+                                    <input type="date" id="start" name="trip-start" value="actual" min="actual" max="2999-12-31">
+                                </div>
                             </div>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <p>Fecha de la cita:</p> <input type="date" id="start" name="trip-start" value="actual"
-                            min="actual" max="2030-12-31">
+                        </div>
+                        <div class="col pe-0">
+                            <div class="card">
+                                <p class="card-header">Hora de la cita</p>
+                                <div class="card-body p-3">
+                                    <input type="time" id="appt" name="appt" min="7:30" max="20:00" required>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <br>
+                </div>
 
-                    <div class="col">
-                        <p>Hora de la cita:</p>
-                        <input type="time" id="appt" name="appt" min="7:30" max="20:00" required>
+                <div class="container">
+                    <div class="row">
+                        <div class="col text-center">
+                            <!-- Añadir interacción -->
+                            <button type="submit" class="btn btn-primary w-50">Generar Cita</button>
+                        </div>
                     </div>
                 </div>
-                <br>
-                <p>Tarjeta Sanitaria:</p> <input type="text" value=""> <button type="button"
-                    class="btn btn-success btn-sm">Verificar</button>
             </div>
-            <br>
-
-            <button type="submit" class="btn btn-primary">Generar Cita</button>
         </div>
     </main>
 </body>
