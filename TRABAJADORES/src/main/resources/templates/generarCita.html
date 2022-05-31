@@ -60,7 +60,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col ps-0">
-                            <div class="card">
+                            <div class="card d-none" id="fecha">
                                 <p class="card-header">Fecha de la cita</p>
                                 <div class="card-body p-3">
                                     <input type="date" id="start" name="trip-start" value="actual" min="actual" max="2999-12-31">
@@ -69,7 +69,7 @@
                         </div>
                         <div class="col pe-0">
                             <div class="card">
-                                <p class="card-header">Hora de la cita</p>
+                                <p class="card-header d-none" id="hora">Hora de la cita</p>
                                 <div class="card-body p-3">
                                     <input type="time" id="appt" name="appt" min="7:30" max="20:00" required>
                                 </div>
@@ -83,7 +83,7 @@
                     <div class="row">
                         <div class="col text-center">
                             <!-- Añadir interacción -->
-                            <button type="submit" class="btn btn-primary w-50">Generar Cita</button>
+                            <button type="submit" class="btn btn-primary w-50 d-none" id="generar">Generar Cita</button>
                         </div>
                     </div>
                 </div>
