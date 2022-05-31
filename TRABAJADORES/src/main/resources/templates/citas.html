@@ -26,10 +26,10 @@
                             <td th:text="${cita.apellido1}"></td>
                             <td th:text="${cita.apellido2}"></td>
                             <td th:text="${cita.fecha_hora}"></td>
-                            <td><span th:if="${cita.nombreCategoria} == 'Grave'" th:text="${cita.nombreCategoria}" class="badge bg-danger"></span>
-                                <span th:if="${cita.nombreCategoria} == 'Moderado'" th:text="${cita.nombreCategoria}" class="badge bg-warning"></span>
-                                <span th:if="${cita.nombreCategoria} == 'Leve'" th:text="${cita.nombreCategoria}" class="badge bg-success"></span>
-                                <span th:if="${cita.nombreCategoria} == 'Desconocido'" th:text="${cita.nombreCategoria}" class="badge bg-dark"></span>
+                            <td><span th:if="${cita.nombreCategoria} == 'GRAVE'" th:text="${cita.nombreCategoria}" class="badge bg-danger"></span>
+                                <span th:if="${cita.nombreCategoria} == 'MODERADO'" th:text="${cita.nombreCategoria}" class="badge bg-warning"></span>
+                                <span th:if="${cita.nombreCategoria} == 'LEVE'" th:text="${cita.nombreCategoria}" class="badge bg-success"></span>
+                                <span th:if="${cita.nombreCategoria} == 'DESCONOCIDO'" th:text="${cita.nombreCategoria}" class="badge bg-dark"></span>
                             </td>
                         </tr>
                     </tbody>
