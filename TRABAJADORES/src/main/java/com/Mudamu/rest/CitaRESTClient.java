@@ -57,4 +57,17 @@ public class CitaRESTClient {
 		}
 		return citasAdmin;
 	}
+
+	public CitasMedico getNewCitasAdministrativo() {
+		CitasMedico citasAdmin = new CitasMedico();
+		WebResource webResource = client.resource(urlDDBBService).path("newCitas");
+		ClientResponse clientResponse = webResource.accept("application/xml").get(ClientResponse.class);
+		status = clientResponse.getStatus();
+		if (status == 200) {
+			citasAdmin = clientResponse.getEntity(CitasMedico.class);
+		} else {
+			response = "La llamada no ha sido correcta";
+		}
+		return citasAdmin;
+	}
 }

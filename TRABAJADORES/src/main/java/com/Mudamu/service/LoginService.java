@@ -21,5 +21,7 @@ public interface LoginService {
 	public Object getPredicciones(Medico user);
 
     public void updateCitaSolicitada(int prediccionID, int categoriaID);
+
+    public Object getNuevasCitas();
 }
 

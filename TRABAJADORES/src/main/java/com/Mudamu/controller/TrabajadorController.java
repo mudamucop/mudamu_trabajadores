@@ -40,6 +40,7 @@ public class TrabajadorController {
 				model.addAttribute("section", "active");
 			} else if (user.getTipo().toLowerCase().equals("administrativo")) {
 				model.addAttribute("administrativo", "active");
+				model.addAttribute("nuevasCitas", userService.getNuevasCitas());
 				model.addAttribute("citas", userService.getCitasAdministrativo());
 			} else {
 				model.addAttribute("userForm", new Medico());
@@ -54,53 +55,58 @@ public class TrabajadorController {
 
 	@GetMapping("/predPag")
 	public String paginaPredicciones(Model model) throws Exception {
-		String url ="";
+		String url = "";
 		HttpServletResponse response;
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Medico user = userService.loadUserByUsername(((UserDetails) principal).getUsername());
 
-		if (user.getTipo().toLowerCase().equals("medico")) {
-			model.addAttribute("predicciones", "active");
-			model.addAttribute("predicciones", userService.getPredicciones(user));
-			model.addAttribute("section", "active");
-			url = "index";
-		}
-		else url = "404";
+		if (user.getTipo() != null) {
+			if (user.getTipo().toLowerCase().equals("medico")) {
+				model.addAttribute("predicciones", "active");
+				model.addAttribute("predicciones", userService.getPredicciones(user));
+				model.addAttribute("section", "active");
+				url = "index";
+			} else url = "404";
+		}else url = "404";
 
 		return url;
 	}
 
 	@GetMapping("/generateCitas")
-	public String paginaGenerateCitas(Model model) throws Exception{
-		String url="";
+	public String paginaGenerateCitas(Model model) throws Exception {
+		String url = "";
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Medico user = userService.loadUserByUsername(((UserDetails) principal).getUsername());
 
-		if (user.getTipo().toLowerCase().equals("administrativo")){
-			//Cita cita = new Cita();
+		if (user.getTipo().toLowerCase().equals("administrativo")) {
+			// Cita cita = new Cita();
 			model.addAttribute("administrativo", "active");
 			model.addAttribute("generate", "active");
 			url = "index";
-		} else url = "404";
+		} else
+			url = "404";
 
 		return url;
 	}
 
 	@PostMapping("/requestCita")
-	public String requestCita(Model model, @RequestBody String data){
+	public String requestCita(Model model, @RequestBody String data) {
 		Integer catID = 0;
 
 		String separate = data.split("=")[1];
-		
-		String cate = data.split("=")[1].split("%2F")[1];
-		
-		if (cate.toLowerCase().equals("leve"))catID = 1;
-		else if (cate.toLowerCase().equals("moderado"))catID = 2;
-		else if (cate.toLowerCase().equals("grave"))catID = 3;
-		else catID = 4;
 
+		String cate = data.split("=")[1].split("%2F")[1];
+
+		if (cate.toLowerCase().equals("leve"))
+			catID = 1;
+		else if (cate.toLowerCase().equals("moderado"))
+			catID = 2;
+		else if (cate.toLowerCase().equals("grave"))
+			catID = 3;
+		else
+			catID = 4;
 
 		userService.updateCitaSolicitada(Integer.parseInt(data.split("=")[1].split("%2F")[0]), catID);
 

@@ -124,4 +124,11 @@ public class LoginServiceImpl implements LoginService {
 	public void updateCitaSolicitada(int prediccionID, int categoriaID) {
 		prediccionRESTClient.updateCitaSolicitada(prediccionID, categoriaID);
 	}
+
+	@Override
+	public Object getNuevasCitas() {
+		CitasMedico citas = citaRESTClient.getNewCitasAdministrativo();
+
+		return citas.getListaCD();
+	}
 }
