@@ -1,9 +1,12 @@
 package com.Mudamu.controller;
 
+import com.Mudamu.model.CitaMedico;
 import com.Mudamu.model.Medico;
 import com.Mudamu.model.Prediccion;
 import com.Mudamu.service.LoginService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
@@ -36,12 +39,12 @@ public class TrabajadorController {
 		if (user.getTipo() != null) {
 			if (user.getTipo().toLowerCase().equals("medico")) {
 				model.addAttribute("citas", "active");
-				model.addAttribute("citas", userService.getCitas(user));
+				model.addAttribute("citas", filtrar((List<CitaMedico>)userService.getCitas(user)));
 				model.addAttribute("section", "active");
 			} else if (user.getTipo().toLowerCase().equals("administrativo")) {
 				model.addAttribute("administrativo", "active");
 				model.addAttribute("nuevasCitas", userService.getNuevasCitas());
-				model.addAttribute("citas", userService.getCitasAdministrativo());
+				model.addAttribute("citas", filtrar((List<CitaMedico>)userService.getCitasAdministrativo()));
 			} else {
 				model.addAttribute("userForm", new Medico());
 				model.addAttribute("admin", "active");
@@ -51,6 +54,16 @@ public class TrabajadorController {
 		}
 
 		return url;
+	}
+
+	private List<CitaMedico> filtrar(List<CitaMedico> lista) {
+		List<CitaMedico> filteredLista = new ArrayList<>();
+
+		for (CitaMedico cita : lista) {
+			if (cita.getFecha_hora() != null)
+				filteredLista.add(cita);
+		}
+		return filteredLista;
 	}
 
 	@GetMapping("/predPag")
@@ -67,8 +80,10 @@ public class TrabajadorController {
 				model.addAttribute("predicciones", userService.getPredicciones(user));
 				model.addAttribute("section", "active");
 				url = "index";
-			} else url = "404";
-		}else url = "404";
+			} else
+				url = "404";
+		} else
+			url = "404";
 
 		return url;
 	}
@@ -89,6 +104,14 @@ public class TrabajadorController {
 			url = "404";
 
 		return url;
+	}
+
+	@PostMapping("/busqueda")
+	public String peticionBusqueda(Model model, @RequestBody String data) throws Exception{
+		System.out.println(data);
+		//model.addAttribute("news", filtrar((List<CitaMedico>)userService.getCitasAdministrativo()));
+
+		return "redirect:/generateCitas";
 	}
 
 	@PostMapping("/requestCita")

@@ -22,15 +22,15 @@
             <div class="card-header">
                 <i class="fas fa-briefcase-medical me-1"></i>Predicciones
             </div>
-            <div class="container-fluid mx-0 p-0 mt-2">
-                <table class="table">
+            <div class="container-fluid m-0 p-0">
+                <table class="table m-0 p-0">
                     <thead>
                         <tr>
                             <th scope="col"></th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Apellido1</th>
                             <th scope="col">Apellido2</th>
-                            <th scope="col">Fecha</th>
+                            <th scope="col">Fecha Realizada</th>
                             <th scope="col">Categoría</th>
                         </tr>
                     </thead>
@@ -38,7 +38,7 @@
                         <div th:each="prediccion: ${predicciones}" class="accordion-item">
                             <tr th:id="heading+${prediccion.prediccionID}" class="accordion-toggle collapsed">
                                 <td th:if="${prediccion.citaSolicitada} == 0" class="accordion-header expand-button" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true">+</td>
-                                <td th:if="${prediccion.citaSolicitada} == 1" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"><i class="fas fa-check"></i></td>
+                                <td th:if="${prediccion.citaSolicitada} == 1" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"><i class="fas fa-check text-success"></i></td>
                                 <td th:text="${prediccion.nombre}" class="accordion-header nombre" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"></td>
                                 <td th:text="${prediccion.apellido1}" class="accordion-header " type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"></td>
                                 <td th:text="${prediccion.apellido2}" class="accordion-header " type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"></td>

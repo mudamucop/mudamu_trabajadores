@@ -5,11 +5,10 @@
     <div class="container-fluid px-4">
         <div class="card my-4">
             <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                Citas
+                <i class="fas fa-table me-1"></i> Citas
             </div>
             <div class="card-body">
-                <table id="datatablesSimple">
+                <table class="datatablesSimple">
                     <thead>
                         <tr>
                             <th scope="col">Tarjeta Sanitaria</th>
@@ -20,16 +19,6 @@
                             <th scope="col">Categoría</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th scope="col">Tarjeta Sanitaria</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellido1</th>
-                            <th scope="col">Apellido2</th>
-                            <th scope="col">Fecha de la cita</th>
-                            <th scope="col">Categoría</th>
-                        </tr>
-                    </tfoot>
                     <tbody>
                         <tr th:each="cita: ${citas}">
                             <td th:text="${cita.tarjetaSanitaria}"></td>
@@ -37,14 +26,10 @@
                             <td th:text="${cita.apellido1}"></td>
                             <td th:text="${cita.apellido2}"></td>
                             <td th:text="${cita.fecha_hora}"></td>
-                            <td><span th:if="${cita.nombreCategoria} == 'Grave'" th:text="${cita.nombreCategoria}"
-                                    class="badge bg-danger"></span>
-                                <span th:if="${cita.nombreCategoria} == 'Moderado'" th:text="${cita.nombreCategoria}"
-                                    class="badge bg-warning"></span>
-                                <span th:if="${cita.nombreCategoria} == 'Leve'" th:text="${cita.nombreCategoria}"
-                                    class="badge bg-success"></span>
-                                <span th:if="${cita.nombreCategoria} == 'Desconocido'" th:text="${cita.nombreCategoria}"
-                                    class="badge bg-dark"></span>
+                            <td><span th:if="${cita.nombreCategoria} == 'GRAVE'" th:text="${cita.nombreCategoria}" class="badge bg-danger"></span>
+                                <span th:if="${cita.nombreCategoria} == 'MODERADO'" th:text="${cita.nombreCategoria}" class="badge bg-warning"></span>
+                                <span th:if="${cita.nombreCategoria} == 'LEVE'" th:text="${cita.nombreCategoria}" class="badge bg-success"></span>
+                                <span th:if="${cita.nombreCategoria} == 'DESCONOCIDO'" th:text="${cita.nombreCategoria}" class="badge bg-dark"></span>
                             </td>
                         </tr>
                     </tbody>
