@@ -27,28 +27,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.rabbitmq.client.AMQP.BasicProperties;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
-
 @Controller
 public class TrabajadorController {
 
 	@Autowired
 	LoginService userService;
-
-	final static String EXCHANGE_NAME = "ciclocompleto";
-	ConnectionFactory factory;
-
-	public TrabajadorController() {
-		factory = new ConnectionFactory();
-		factory.setHost("localhost");
-		factory.setUsername("admin");
-		factory.setPassword("password");
-	}
 
 	@GetMapping("/pacPage")
 	public String paginaPrincipal(Model model) throws Exception {
@@ -100,24 +83,7 @@ public class TrabajadorController {
 				model.addAttribute("predicciones", "active");
 				model.addAttribute("predicciones", userService.getPredicciones(user));
 				model.addAttribute("section", "active");
-				Channel channel = null;
-			try (Connection connection = factory.newConnection()) {
-
-				channel = connection.createChannel();
-				channel.exchangeDeclare(EXCHANGE_NAME, "direct");
-				String queueName = channel.queueDeclare().getQueue();
-				channel.queueBind("medico1", EXCHANGE_NAME, "3");
-
-				MiConsumer consumer = new MiConsumer(channel);
-				boolean autoack = true;
-				String tag = channel.basicConsume("medico1", autoack, consumer);
-
-				channel.basicCancel(tag);
-				channel.close();
-
-			} catch (IOException | TimeoutException e) {
-				e.printStackTrace();
-			}
+				
 				url = "index";
 			} else
 				url = "404";
@@ -125,26 +91,6 @@ public class TrabajadorController {
 			url = "404";
 
 		return url;
-	}
-
-public class MiConsumer extends DefaultConsumer {
-
-		public MiConsumer(Channel channel) {
-			super(channel);
-
-		}
-
-		@Override
-		public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
-				throws IOException {
-
-			ByteBuffer byteBuffer = ByteBuffer.wrap(body);
-			IntBuffer intBuffer = byteBuffer.asIntBuffer();
-
-			int valor = intBuffer.get();
-			System.out.println("Recibido:  " + valor + " suma 13");
-		}
-
 	}
 
 	@GetMapping("/generateCitas")
