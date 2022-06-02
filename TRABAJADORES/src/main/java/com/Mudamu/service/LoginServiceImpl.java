@@ -139,4 +139,10 @@ public class LoginServiceImpl implements LoginService {
 
 		return user;
 	}
+
+	@Override
+	public void crearCita(String predID, String fecha_hora, Integer pacienteID) {
+		citaRESTClient.addNewCita(predID, fecha_hora, pacienteID);
+		prediccionRESTClient.updateCitaDada(predID);
+	}
 }

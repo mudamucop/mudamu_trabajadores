@@ -43,10 +43,10 @@
                                 <td th:text="${prediccion.apellido1}" class="accordion-header " type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"></td>
                                 <td th:text="${prediccion.apellido2}" class="accordion-header " type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"></td>
                                 <td th:text="${prediccion.fecha_hora}" class="accordion-header " type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"></td>
-                                <td><span th:if="${prediccion.nombreCategoria} == 'GRAVE'" th:text="${prediccion.nombreCategoria}" class="badge bg-danger"></span>
-                                    <span th:if="${prediccion.nombreCategoria} == 'MODERADO'" th:text="${prediccion.nombreCategoria}" class="badge bg-warning"></span>
-                                    <span th:if="${prediccion.nombreCategoria} == 'LEVE'" th:text="${prediccion.nombreCategoria}" class="badge bg-success"></span>
-                                    <span th:if="${prediccion.nombreCategoria} == 'DESCONOCIDO'" th:text="${prediccion.nombreCategoria}" class="badge bg-dark"></span>
+                                <td><span th:if="${prediccion.nombreCategoria} == 'GRAVE'" th:text="${prediccion.nombreCategoria}" class="badge bg-danger categoria"></span>
+                                    <span th:if="${prediccion.nombreCategoria} == 'MODERADO'" th:text="${prediccion.nombreCategoria}" class="badge bg-warning categoria"></span>
+                                    <span th:if="${prediccion.nombreCategoria} == 'LEVE'" th:text="${prediccion.nombreCategoria}" class="badge bg-success categoria"></span>
+                                    <span th:if="${prediccion.nombreCategoria} == 'DESCONOCIDO'" th:text="${prediccion.nombreCategoria}" class="badge bg-dark categoria"></span>
                                 </td>                            </tr>
                             <tr class="hide-table-padding">
                                 <td th:id="collapseO+${prediccion.prediccionID}" class="collapse p-3"></td>

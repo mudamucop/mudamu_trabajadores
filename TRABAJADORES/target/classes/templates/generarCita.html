@@ -31,7 +31,7 @@
                 <button onclick="loadDoc()" class="btn btn-primary btn-sm align-top">Buscar</button>
 
                 <div class="dataTable-container mt-2">
-                    <table id="datatablesSimple" class="datatablesSimple">
+                    <table id="datatable" class="datatable">
                         <thead>
                             <tr>
                                 <th scope="col">Tarjeta Sanitaria</th>
@@ -42,14 +42,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="paciente: ${news}">
-                                <td th:text="${paciente.prediccionID}"></td>
-                                <td th:text="${paciente.tarjetaSanitaria}"></td>
-                                <td th:text="${paciente.nombre}"></td>
-                                <td th:text="${paciente.apellido1}"></td>
-                                <td th:text="${paciente.apellido2}"></td>
-                                <!-- AÑADIR TH categoria -->
-                                <td><span class="badge bg-danger">GRAVE</span></td>
+                            <tr>
+                                <td id="empty" class="dataTable-empty text-center" colspan="5">No entries found</td>
                             </tr>
                         </tbody>
                     </table>
@@ -58,7 +52,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col ps-0">
-                            <div class="card d-none" id="fecha">
+                            <div class="card d-none mt-3" id="fecha">
                                 <p class="card-header">Fecha de la cita</p>
                                 <div class="card-body p-3">
                                     <input id="fechaValue" type="date" name="trip-start" value="actual" min="actual"
@@ -67,7 +61,7 @@
                             </div>
                         </div>
                         <div class="col pe-0">
-                            <div class="card d-none" id="hora">
+                            <div class="card d-none mt-3" id="hora">
                                 <p class="card-header">Hora de la cita</p>
                                 <div class="card-body p-3">
                                     <input id="horaValue" type="time" name="appt" min="7:30" max="20:00" required>
@@ -82,7 +76,8 @@
                     <div class="row">
                         <div class="col text-center">
                             <!-- Añadir interacción -->
-                            <button onclick="generateCitas()" class="btn btn-primary w-50 d-none" id="generar">Generar Cita</button>
+                            <button onclick="generateCitas()" class="btn btn-primary w-50 d-none" id="generar">Generar
+                                Cita</button>
                         </div>
                     </div>
                 </div>
@@ -94,6 +89,7 @@
 </html>
 
 <script>
+    var predID = -1;
     function loadDoc() {
         if (!document.getElementById('value').value.trim().length) {
             alert("Introduzca una tarjeta sanitaria porfavor");
@@ -106,20 +102,74 @@
                     tr: $("#value").val(),
                 },
                 success: function (list) {
-                    console.log(list)
-                    document.getElementById("fecha").classList.remove("d-none");
-                    document.getElementById("hora").classList.remove("d-none");
-                    document.getElementById("generar").classList.remove("d-none");
-                    alert('ok');
-                    $.each(result, function (i, item) {  
-                            var rows = "<tr>"  
-                            + "<td>" + result + "</td>"   
-                            + "</tr>";  
-                            $('#datatablesSimple').append(rows);  
-                        }); 
+                    if (list.length > 0) {
+                        clean(true);
+
+                        $('#empty').addClass("d-none");
+                        $.each(list, function (i, item) {
+                            var rows = "<tr>"
+                                + "<td>" + item.tarjetaSanitaria + "</td>"
+                                + "<td>" + item.nombre + "</td>"
+                                + "<td>" + item.apellido1 + "</td>"
+                                + "<td>" + item.apellido2 + "</td>"
+                                + "<td>" + item.nombreCategoria + "</td>"
+                                + "<td><button onclick='display(" + item.prediccionID + ")' class='btn btn-primary btn-sm align-top'>Elegir</button></td>"
+                                + "</tr>";
+                            $('#datatable').append(rows);
+                        });
+                    } else {
+                        alert('Not found');
+                        clean(false);
+
+                        $('#datatable').append(
+                            "<tr><td id='empty' class='dataTable-empty text-center' colspan='5'>No entries found</td>"
+                            + "</tr>"
+                        );
+
+                        $("#fecha").addClass("d-none");
+                        $("#hora").addClass("d-none");
+                        $("#generar").addClass("d-none");
+                    }
                 },
             });
         }
+    }
+
+    function clean(cond) {
+        while (document.getElementById("datatable").rows.length > 0) {
+            document.getElementById("datatable").deleteRow(0);
+        }
+
+        if (cond) {
+            $('#datatable').append(
+                "<tr><th scope='col'>Tarjeta Sanitaria</th>"
+                + "<th scope='col'>Nombre</th>"
+                + "<th scope='col'>Apellido1</th>"
+                + "<th scope='col'>Apellido2</th>"
+                + "<th scope='col'>Categoría</th>"
+                + "<th scrop='col'></th>"
+                + "</tr>");
+        }
+        else {
+            $('#datatable').append(
+                "<tr><th scope='col'>Tarjeta Sanitaria</th>"
+                + "<th scope='col'>Nombre</th>"
+                + "<th scope='col'>Apellido1</th>"
+                + "<th scope='col'>Apellido2</th>"
+                + "<th scope='col'>Categoría</th>"
+                + "</tr>");
+        }
+
+    }
+
+    function display(id) {
+        document.getElementById("fecha").classList.remove("d-none");
+        document.getElementById("hora").classList.remove("d-none");
+        document.getElementById("generar").classList.remove("d-none");
+
+        predID = id;
+        console.log(predID)
+        console.log(id)
     }
 
     function generateCitas() {
@@ -134,10 +184,12 @@
                     tr: $("#value").val(),
                     fe: $("#fechaValue").val(),
                     ho: $("#horaValue").val(),
+                    prID: predID,
                 },
                 success: function (result) {
+                    prID = -1;
                     $("#success").modal('show');
-                    setTimeout(function(){location.reload();}, 1500);
+                    setTimeout(function () { location.reload(); }, 1500);
                 },
             });
         }

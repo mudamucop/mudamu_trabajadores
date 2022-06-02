@@ -26,5 +26,7 @@ public interface LoginService {
     public void updateCitaSolicitada(int prediccionID, int categoriaID);
 
     public Object getNuevasCitas();
+
+    public void crearCita(String predID, String fecha_hora, Integer pacienteID);
 }
 

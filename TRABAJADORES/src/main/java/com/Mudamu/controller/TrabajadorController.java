@@ -66,12 +66,12 @@ public class TrabajadorController {
 		if (user.getTipo() != null) {
 			if (user.getTipo().toLowerCase().equals("medico")) {
 				model.addAttribute("citas", "active");
-				model.addAttribute("citas", filtrar((List<CitaMedico>) userService.getCitas(user), true));
+				model.addAttribute("citas", filtrar((List<CitaMedico>) userService.getCitas(user)));
 				model.addAttribute("section", "active");
 			} else if (user.getTipo().toLowerCase().equals("administrativo")) {
 				model.addAttribute("administrativo", "active");
 				model.addAttribute("nuevasCitas", userService.getNuevasCitas());
-				model.addAttribute("citas", filtrar((List<CitaMedico>) userService.getCitasAdministrativo(), true));
+				model.addAttribute("citas", filtrar((List<CitaMedico>) userService.getCitasAdministrativo()));
 			} else {
 				model.addAttribute("userForm", new Medico());
 				model.addAttribute("admin", "active");
@@ -83,13 +83,11 @@ public class TrabajadorController {
 		return url;
 	}
 
-	private List<CitaMedico> filtrar(List<CitaMedico> lista, boolean condicion) {
+	private List<CitaMedico> filtrar(List<CitaMedico> lista) {
 		List<CitaMedico> filteredLista = new ArrayList<>();
 
 		for (CitaMedico cita : lista) {
-			if (cita.getFecha_hora() != null && condicion)
-				filteredLista.add(cita);
-			else if (cita.getFecha_hora() == null && !condicion)
+			if (cita.getFecha_hora() != null)
 				filteredLista.add(cita);
 		}
 		return filteredLista;
@@ -195,7 +193,7 @@ public class TrabajadorController {
 		String fecha_hora = data.split("&")[1].split("=")[1] + " " + data.split("&")[2].split("=")[1].split("%")[0]
 				+ ":" + data.split("&")[2].split("=")[1].split("%")[1].split("A")[1];
 
-		// userService.crearCita(fecha_hora, user.getpacienteID());
+		userService.crearCita(data.split("&")[3].split("=")[1], fecha_hora, user.getpacienteID());
 
 		return "redirect:/generateCitas";
 	}

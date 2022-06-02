@@ -70,4 +70,19 @@ public class CitaRESTClient {
 		}
 		return citasAdmin;
 	}
+
+	public void addNewCita(String predID, String fecha_hora, Integer pacienteID) {
+		WebResource webResource = client.resource(urlDDBBService).path("generateCita").queryParam("prediccionID",
+				predID).queryParam("fecha_hora",
+						fecha_hora)
+				.queryParam("pacienteID",
+						Integer.toString(pacienteID));
+		ClientResponse clientResponse = webResource.accept("application/xml").get(ClientResponse.class);
+		status = clientResponse.getStatus();
+		if (status == 200) {
+			response = "La llamada ha sido correcta";
+		} else {
+			response = "La llamada no ha sido correcta";
+		}
+	}
 }
