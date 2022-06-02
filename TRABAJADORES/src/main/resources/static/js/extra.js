@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         let cate = fila.getElementsByClassName('categoria')[0].textContent;
 
         $.ajax({
-            url: '/requestCita',
+            url: '/trabajadores/requestCita',
             type: "POST",
             data: {'data': num+"/"+cate},
             contentType: "application/json",
