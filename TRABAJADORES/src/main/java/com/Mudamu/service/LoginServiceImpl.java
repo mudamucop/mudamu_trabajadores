@@ -14,6 +14,7 @@ import com.Mudamu.model.CitasMedico;
 import com.Mudamu.model.Medico;
 import com.Mudamu.model.Prediccion;
 import com.Mudamu.model.Predicciones;
+import com.Mudamu.model.User;
 import com.Mudamu.rest.CitaRESTClient;
 import com.Mudamu.rest.PrediccionRESTClient;
 import com.Mudamu.rest.UserRESTClient;
@@ -130,5 +131,12 @@ public class LoginServiceImpl implements LoginService {
 		CitasMedico citas = citaRESTClient.getNewCitasAdministrativo();
 
 		return citas.getListaCD();
+	}
+
+	@Override
+	public User loadByTarjetaUser(String tarjetaSanitaria) {
+		User user = userRESTClient.getUser(tarjetaSanitaria);
+
+		return user;
 	}
 }

@@ -12,13 +12,12 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import com.Mudamu.model.Medico;
 import com.Mudamu.model.Predicciones;
+import com.Mudamu.model.User;
 
 @Service
 public class UserRESTClient {
-	//localhost/Servidor ->http://localhost:8080/AlbumDbCRUD/resources/user		
 	
 	String urlDDBBService = "http://mudamudb.duckdns.org/mudamuMysql/service/user";
-	//String urlDDBBService = "http://localhost/MudamuCrud/service/user";
 	
 	ClientConfig clientConfig = new DefaultClientConfig();
 	String response;  
@@ -78,7 +77,19 @@ public class UserRESTClient {
 		if (status==201) {response = "Creado con Objeto";}
 		else {response="La llamada no ha sido correcta";}
 		return response;
-	}	
+	}
+
+    public User getUser(String tarjetaSanitaria) {
+        User user= new User();
+		WebResource webResource = client.resource(urlDDBBService).path("login").queryParam("username",tarjetaSanitaria);
+		ClientResponse clientResponse = webResource.accept("application/xml").get(ClientResponse.class);
+		status= clientResponse.getStatus();
+		if (status==200) {
+			user = clientResponse.getEntity(User.class);
+			}
+		else {response="La llamada no ha sido correcta";}
+		return user;
+    }	
 }
 
 

@@ -6,6 +6,14 @@
 </head>
 
 <body>
+    <div id="success" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
+        aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <h1>Success</h1>
+            </div>
+        </div>
+    </div>
     <!-- Main content -->
     <main class="container-fluid px-4">
         <div class="card bg-light my-4">
@@ -35,6 +43,7 @@
                         </thead>
                         <tbody>
                             <tr th:each="paciente: ${news}">
+                                <td th:text="${paciente.prediccionID}"></td>
                                 <td th:text="${paciente.tarjetaSanitaria}"></td>
                                 <td th:text="${paciente.nombre}"></td>
                                 <td th:text="${paciente.apellido1}"></td>
@@ -52,8 +61,8 @@
                             <div class="card d-none" id="fecha">
                                 <p class="card-header">Fecha de la cita</p>
                                 <div class="card-body p-3">
-                                    <input type="date" id="start" name="trip-start" value="actual" min="actual"
-                                        max="2999-12-31">
+                                    <input id="fechaValue" type="date" name="trip-start" value="actual" min="actual"
+                                        max="2999-12-31" required>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +70,7 @@
                             <div class="card d-none" id="hora">
                                 <p class="card-header">Hora de la cita</p>
                                 <div class="card-body p-3">
-                                    <input type="time" id="appt" name="appt" min="7:30" max="20:00" required>
+                                    <input id="horaValue" type="time" name="appt" min="7:30" max="20:00" required>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +82,7 @@
                     <div class="row">
                         <div class="col text-center">
                             <!-- Añadir interacción -->
-                            <button type="submit" class="btn btn-primary w-50 d-none" id="generar">Generar Cita</button>
+                            <button onclick="generateCitas()" class="btn btn-primary w-50 d-none" id="generar">Generar Cita</button>
                         </div>
                     </div>
                 </div>
@@ -91,19 +100,45 @@
         } else {
             $.ajax({
                 type: "POST",
+                //url: "/trabajadores/busqueda",
                 url: "/busqueda",
                 data: {
                     tr: $("#value").val(),
                 },
-                success: function (result) {
+                success: function (list) {
+                    console.log(list)
                     document.getElementById("fecha").classList.remove("d-none");
                     document.getElementById("hora").classList.remove("d-none");
                     document.getElementById("generar").classList.remove("d-none");
                     alert('ok');
+                    $.each(result, function (i, item) {  
+                            var rows = "<tr>"  
+                            + "<td>" + result + "</td>"   
+                            + "</tr>";  
+                            $('#datatablesSimple').append(rows);  
+                        }); 
                 },
-                error: function (result) {
-                    alert('error');
-                }
+            });
+        }
+    }
+
+    function generateCitas() {
+        if (!document.getElementById('fechaValue').value.trim().length || !document.getElementById('horaValue').value.trim().length) {
+            alert("Introduzca fecha y hora");
+        } else {
+            $.ajax({
+                type: "POST",
+                //url: "/trabajadores/busqueda",
+                url: "/crearCita",
+                data: {
+                    tr: $("#value").val(),
+                    fe: $("#fechaValue").val(),
+                    ho: $("#horaValue").val(),
+                },
+                success: function (result) {
+                    $("#success").modal('show');
+                    setTimeout(function(){location.reload();}, 1500);
+                },
             });
         }
     }

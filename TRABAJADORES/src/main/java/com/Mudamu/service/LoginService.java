@@ -3,6 +3,7 @@ package com.Mudamu.service;
 import java.util.Optional;
 
 import com.Mudamu.model.Medico;
+import com.Mudamu.model.User;
 
 public interface LoginService {
 
@@ -17,6 +18,8 @@ public interface LoginService {
 	public Object getCitasAdministrativo();
 
     public Medico loadUserByUsername(String username);
+	
+	public User loadByTarjetaUser(String tarjetaSanitaria);
 
 	public Object getPredicciones(Medico user);
 
