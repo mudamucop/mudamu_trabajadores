@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.Mudamu.model.CitasMedico;
 import com.Mudamu.model.Medico;
@@ -85,4 +89,12 @@ public class CitaRESTClient {
 			response = "La llamada no ha sido correcta";
 		}
 	}
+
+    public void avisoCita() {	
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> request = new HttpEntity<String>("", headers);
+		restTemplate.postForObject("http://mudamudb.duckdns.org:1880/TL", request, String.class);
+    }
 }

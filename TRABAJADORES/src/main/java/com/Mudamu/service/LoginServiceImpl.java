@@ -145,4 +145,9 @@ public class LoginServiceImpl implements LoginService {
 		citaRESTClient.addNewCita(predID, fecha_hora, pacienteID);
 		prediccionRESTClient.updateCitaDada(predID);
 	}
+
+	@Override
+	public void avisoUpdate() {
+		citaRESTClient.avisoCita();
+	}
 }

@@ -28,5 +28,7 @@ public interface LoginService {
     public Object getNuevasCitas();
 
     public void crearCita(String predID, String fecha_hora, Integer pacienteID);
+
+    public void avisoUpdate();
 }
 

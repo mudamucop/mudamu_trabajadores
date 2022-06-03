@@ -217,6 +217,8 @@ public class TrabajadorController {
 
 		userService.updateCitaSolicitada(Integer.parseInt(data.split("=")[1].split("%2F")[0]), catID);
 
+		userService.avisoUpdate();
+
 		return "redirect:/predPag";
 	}
 }
