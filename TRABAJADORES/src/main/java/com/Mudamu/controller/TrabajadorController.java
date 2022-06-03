@@ -46,7 +46,8 @@ public class TrabajadorController {
 	@Autowired
 	LoginService userService;
 
-	final static String EXCHANGE_NAME = "ciclocompleto";
+	final static String EXCHANGE_NAME_ADMINISTRATIVO = "avisoAdmin";
+	final static String EXCHANGE_NAME = "cicloAvisoMedicos";
 	ConnectionFactory factory;
 
 	public TrabajadorController() {
@@ -72,6 +73,24 @@ public class TrabajadorController {
 				model.addAttribute("administrativo", "active");
 				model.addAttribute("nuevasCitas", userService.getNuevasCitas());
 				model.addAttribute("citas", filtrar((List<CitaMedico>) userService.getCitasAdministrativo()));
+
+				Channel channel = null;
+				try (Connection connection = factory.newConnection()) {
+					channel = connection.createChannel();
+					channel.exchangeDeclare(EXCHANGE_NAME_ADMINISTRATIVO, "fanout");
+					String queueName = channel.queueDeclare().getQueue();
+					channel.queueBind(queueName, EXCHANGE_NAME_ADMINISTRATIVO, "");
+
+					MiConsumer consumer = new MiConsumer(channel);
+					boolean autoack = true;
+					String tag = channel.basicConsume(queueName, autoack, consumer);
+
+					channel.basicCancel(tag);
+					channel.close();
+
+				} catch (IOException | TimeoutException e) {
+					e.printStackTrace();
+				}
 			} else {
 				model.addAttribute("userForm", new Medico());
 				model.addAttribute("admin", "active");
@@ -174,7 +193,7 @@ public class TrabajadorController {
 	@PostMapping("/busqueda")
 	public ResponseEntity<String> peticionBusqueda(Model model, @RequestBody String data) throws Exception {
 		List<CitaMedico> lista = new ArrayList<>();
-		for (CitaMedico ls : (List<CitaMedico>)userService.getNuevasCitas())
+		for (CitaMedico ls : (List<CitaMedico>) userService.getNuevasCitas())
 			if (ls.getTarjetaSanitaria().equals(data.split("=")[1]))
 				lista.add(ls);
 
