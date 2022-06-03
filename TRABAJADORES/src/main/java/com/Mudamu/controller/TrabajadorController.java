@@ -50,6 +50,8 @@ public class TrabajadorController {
 	final static String EXCHANGE_NAME = "cicloAvisoMedicos";
 	ConnectionFactory factory;
 
+	String message = null;
+
 	public TrabajadorController() {
 		factory = new ConnectionFactory();
 		factory.setHost("localhost");
@@ -69,6 +71,25 @@ public class TrabajadorController {
 				model.addAttribute("citas", "active");
 				model.addAttribute("citas", filtrar((List<CitaMedico>) userService.getCitas(user)));
 				model.addAttribute("section", "active");
+
+				Channel channel = null;
+				try (Connection connection = factory.newConnection()) {
+
+					channel = connection.createChannel();
+					channel.exchangeDeclare(EXCHANGE_NAME, "direct");
+					String queueName = channel.queueDeclare().getQueue();
+					channel.queueBind("medico1", EXCHANGE_NAME, String.valueOf(user.getTrabajadorID()));
+
+					MiConsumer consumer = new MiConsumer(channel);
+					boolean autoack = true;
+					String tag = channel.basicConsume("medico1", autoack, consumer);
+
+					channel.basicCancel(tag);
+					//channel.close();
+
+				} catch (IOException | TimeoutException e) {
+					e.printStackTrace();
+				}
 			} else if (user.getTipo().toLowerCase().equals("administrativo")) {
 				model.addAttribute("administrativo", "active");
 				model.addAttribute("nuevasCitas", userService.getNuevasCitas());
@@ -86,7 +107,9 @@ public class TrabajadorController {
 					String tag = channel.basicConsume(queueName, autoack, consumer);
 
 					channel.basicCancel(tag);
-					channel.close();
+					//channel.close();
+
+					model.addAttribute("citas", message);
 
 				} catch (IOException | TimeoutException e) {
 					e.printStackTrace();
@@ -125,24 +148,6 @@ public class TrabajadorController {
 				model.addAttribute("predicciones", "active");
 				model.addAttribute("predicciones", userService.getPredicciones(user));
 				model.addAttribute("section", "active");
-				Channel channel = null;
-				try (Connection connection = factory.newConnection()) {
-
-					channel = connection.createChannel();
-					channel.exchangeDeclare(EXCHANGE_NAME, "direct");
-					String queueName = channel.queueDeclare().getQueue();
-					channel.queueBind("medico1", EXCHANGE_NAME, String.valueOf(user.getTrabajadorID()));
-
-					MiConsumer consumer = new MiConsumer(channel);
-					boolean autoack = true;
-					String tag = channel.basicConsume("medico1", autoack, consumer);
-
-					channel.basicCancel(tag);
-					channel.close();
-
-				} catch (IOException | TimeoutException e) {
-					e.printStackTrace();
-				}
 				url = "index";
 			} else
 				url = "404";
@@ -163,11 +168,7 @@ public class TrabajadorController {
 		public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
 				throws IOException {
 
-			ByteBuffer byteBuffer = ByteBuffer.wrap(body);
-			IntBuffer intBuffer = byteBuffer.asIntBuffer();
-
-			int valor = intBuffer.get();
-			System.out.println("Recibido:  " + valor + " suma 13");
+			message = new String(body, "UTF-8");			
 		}
 
 	}
