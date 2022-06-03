@@ -46,7 +46,7 @@ public class TrabajadorController {
 	@Autowired
 	LoginService userService;
 
-	final static String EXCHANGE_NAME_ADMINISTRATIVO = "avisoAdmin";
+	final static String EXCHANGE_NAME_ADMINISTRATIVO = "amq.topic";
 	final static String EXCHANGE_NAME = "cicloAvisoMedicos";
 	ConnectionFactory factory;
 
@@ -54,7 +54,7 @@ public class TrabajadorController {
 
 	public TrabajadorController() {
 		factory = new ConnectionFactory();
-		factory.setHost("localhost");
+		factory.setHost("mudaworkers.duckdns.org");
 		factory.setUsername("admin");
 		factory.setPassword("password");
 	}
@@ -85,7 +85,7 @@ public class TrabajadorController {
 					String tag = channel.basicConsume("medico1", autoack, consumer);
 
 					channel.basicCancel(tag);
-					//channel.close();
+					// channel.close();
 
 				} catch (IOException | TimeoutException e) {
 					e.printStackTrace();
@@ -95,30 +95,43 @@ public class TrabajadorController {
 				model.addAttribute("nuevasCitas", userService.getNuevasCitas());
 				model.addAttribute("citas", filtrar((List<CitaMedico>) userService.getCitasAdministrativo()));
 
-				Channel channel = null;
-				try (Connection connection = factory.newConnection()) {
-					channel = connection.createChannel();
-					channel.exchangeDeclare(EXCHANGE_NAME_ADMINISTRATIVO, "fanout");
-					String queueName = channel.queueDeclare().getQueue();
-					channel.queueBind(queueName, EXCHANGE_NAME_ADMINISTRATIVO, "");
+				Thread hiloEspera = new Thread(() -> {
+					Channel channel = null;
+					try (Connection connection = factory.newConnection()) {
+						channel = connection.createChannel();
+						channel.exchangeDeclare(EXCHANGE_NAME_ADMINISTRATIVO, "topic", true);
+						String queueName = channel.queueDeclare().getQueue();
+						channel.queueBind(queueName, EXCHANGE_NAME_ADMINISTRATIVO, "admin.#");
 
-					MiConsumer consumer = new MiConsumer(channel);
-					boolean autoack = true;
-					String tag = channel.basicConsume(queueName, autoack, consumer);
+						MiConsumer consumer = new MiConsumer(channel);
+						boolean autoack = true;
+						String tag = channel.basicConsume(queueName, autoack, consumer);
 
-					channel.basicCancel(tag);
-					//channel.close();
+						synchronized (this) {
+							try {
+								this.wait();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
 
-					model.addAttribute("citas", message);
+						channel.basicCancel(tag);
+						channel.close();
 
-				} catch (IOException | TimeoutException e) {
-					e.printStackTrace();
-				}
+						// model.addAttribute("citas", message);
+
+					} catch (IOException | TimeoutException e) {
+						e.printStackTrace();
+					}
+				});
+				hiloEspera.start();
 			} else {
 				model.addAttribute("userForm", new Medico());
 				model.addAttribute("admin", "active");
 			}
-		} else {
+		} else
+
+		{
 			return "redirect:/login";
 		}
 
@@ -168,7 +181,7 @@ public class TrabajadorController {
 		public void handleDelivery(String consumerTag, Envelope envelope, BasicProperties properties, byte[] body)
 				throws IOException {
 
-			message = new String(body, "UTF-8");			
+			message = new String(body, "UTF-8");
 		}
 
 	}
