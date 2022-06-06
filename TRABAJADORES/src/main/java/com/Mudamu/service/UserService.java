@@ -4,8 +4,9 @@ import java.util.Optional;
 
 import com.Mudamu.model.Medico;
 import com.Mudamu.model.User;
+import com.google.gson.JsonElement;
 
-public interface LoginService {
+public interface UserService {
 
 	//public Iterable<User> getAllUsers();
 
@@ -32,5 +33,7 @@ public interface LoginService {
     public void avisoUpdate();
 
     public Object getSintomas(String predId);
+
+    public Object getEnfermedades(String predId);
 }
 

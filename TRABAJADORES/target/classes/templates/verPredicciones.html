@@ -98,13 +98,7 @@
                                                         <div class="row">
                                                             <div class="col-5">Síntomas</div>
                                                             <div class="col">
-                                                                <table id="datatable" class="datatable"></table>
-                                                                <ul class="list-group">
-                                                                    <li class="list-group-item">Tos</li>
-                                                                    <li class="list-group-item">Fiebre</li>
-                                                                    <li class="list-group-item">Dificultad para respirar
-                                                                    </li>
-                                                                </ul>
+                                                                <table th:id="datatable+${prediccion.prediccionID}"></table>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -114,12 +108,7 @@
                                                         <div class="row">
                                                             <div class="col-5">Enfermedades</div>
                                                             <div class="col">
-                                                                <ul class="list-group">
-                                                                    <li class="list-group-item">Cáncer de pulmón (82%)
-                                                                    </li>
-                                                                    <li class="list-group-item">VIH (46%)</li>
-                                                                    <li class="list-group-item">Faringitis (23%)</li>
-                                                                </ul>
+                                                                <table th:id="datatableE+${prediccion.prediccionID}"></table>
                                                             </div>
                                                         </div>
                                                     </div>

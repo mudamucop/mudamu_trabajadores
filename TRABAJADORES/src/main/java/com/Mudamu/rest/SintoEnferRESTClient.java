@@ -2,6 +2,7 @@ package com.Mudamu.rest;
 
 import org.springframework.stereotype.Service;
 
+import com.Mudamu.model.Enfermedades;
 import com.Mudamu.model.SintomasPrediccion;
 import com.Mudamu.model.SintomasPredicciones;
 import com.sun.jersey.api.client.Client;
@@ -31,6 +32,20 @@ public class SintoEnferRESTClient {
         status = clientResponse.getStatus();
         if (status == 200) {
             user = clientResponse.getEntity(SintomasPredicciones.class);
+        } else {
+            response = "La llamada no ha sido correcta";
+        }
+        return user;
+    }
+
+    public Enfermedades getEnfermedades(String predId) {
+        Enfermedades user = new Enfermedades();
+        WebResource webResource = client.resource(urlDDBBService).path("enfermedades").queryParam("predID",
+                predId);
+        ClientResponse clientResponse = webResource.accept("application/xml").get(ClientResponse.class);
+        status = clientResponse.getStatus();
+        if (status == 200) {
+            user = clientResponse.getEntity(Enfermedades.class);
         } else {
             response = "La llamada no ha sido correcta";
         }

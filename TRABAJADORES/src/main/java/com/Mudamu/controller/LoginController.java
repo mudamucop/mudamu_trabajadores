@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.Mudamu.model.Medico;
-import com.Mudamu.service.LoginService;
+import com.Mudamu.service.UserService;
 
 @Controller
 public class LoginController {
 
 	@Autowired
-	LoginService userService;
+	UserService userService;
 
 	@GetMapping({ "/", "/login" })
 	public String index() {

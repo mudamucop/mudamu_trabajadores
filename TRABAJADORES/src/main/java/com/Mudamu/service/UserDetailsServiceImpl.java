@@ -16,7 +16,7 @@ import com.Mudamu.model.Medico;
 import com.Mudamu.rest.UserRESTClient;
 
 @Service
-public class LoginDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	UserRESTClient userRESTClient;

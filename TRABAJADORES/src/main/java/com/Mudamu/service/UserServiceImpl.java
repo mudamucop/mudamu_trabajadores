@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.Mudamu.model.CitasMedico;
+import com.Mudamu.model.Enfermedades;
 import com.Mudamu.model.Medico;
 import com.Mudamu.model.Prediccion;
 import com.Mudamu.model.Predicciones;
@@ -23,7 +24,7 @@ import com.Mudamu.rest.SintoEnferRESTClient;
 import com.Mudamu.rest.UserRESTClient;
 
 @Service
-public class LoginServiceImpl implements LoginService {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRESTClient userRESTClient;
@@ -162,5 +163,12 @@ public class LoginServiceImpl implements LoginService {
 		SintomasPredicciones sint = sintEnferRESTClient.getSintomas(predId);
 
 		return sint;
+	}
+
+	@Override
+	public Object getEnfermedades(String predId) {
+		Enfermedades enfe = sintEnferRESTClient.getEnfermedades(predId);
+
+		return enfe;
 	}
 }
