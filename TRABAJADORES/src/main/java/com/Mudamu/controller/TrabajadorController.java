@@ -16,8 +16,12 @@ import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.parser.Entity;
+import javax.xml.bind.util.JAXBResult;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -46,8 +50,7 @@ public class TrabajadorController {
 	@Autowired
 	LoginService userService;
 
-	final static String EXCHANGE_NAME_ADMINISTRATIVO = "amq.topic";
-	final static String EXCHANGE_NAME = "cicloAvisoMedicos";
+	final static String EXCHANGE_NAME = "amq.topic";
 	ConnectionFactory factory;
 
 	String message = null;
@@ -72,24 +75,36 @@ public class TrabajadorController {
 				model.addAttribute("citas", filtrar((List<CitaMedico>) userService.getCitas(user)));
 				model.addAttribute("section", "active");
 
-				Channel channel = null;
-				try (Connection connection = factory.newConnection()) {
+				Thread hiloEspera = new Thread(() -> {
+					Channel channel = null;
+					try (Connection connection = factory.newConnection()) {
+						channel = connection.createChannel();
+						channel.exchangeDeclare(EXCHANGE_NAME, "topic", true);
+						String queueName = channel.queueDeclare().getQueue();
+						channel.queueBind(queueName, EXCHANGE_NAME, "#." + user.getTrabajadorID());
 
-					channel = connection.createChannel();
-					channel.exchangeDeclare(EXCHANGE_NAME, "direct");
-					String queueName = channel.queueDeclare().getQueue();
-					channel.queueBind("medico1", EXCHANGE_NAME, String.valueOf(user.getTrabajadorID()));
+						MiConsumer consumer = new MiConsumer(channel);
+						boolean autoack = true;
+						String tag = channel.basicConsume(queueName, autoack, consumer);
 
-					MiConsumer consumer = new MiConsumer(channel);
-					boolean autoack = true;
-					String tag = channel.basicConsume("medico1", autoack, consumer);
+						synchronized (this) {
+							try {
+								this.wait();
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
 
-					channel.basicCancel(tag);
-					// channel.close();
+						channel.basicCancel(tag);
+						channel.close();
 
-				} catch (IOException | TimeoutException e) {
-					e.printStackTrace();
-				}
+						// model.addAttribute("citas", message);
+
+					} catch (IOException | TimeoutException e) {
+						e.printStackTrace();
+					}
+				});
+				hiloEspera.start();
 			} else if (user.getTipo().toLowerCase().equals("administrativo")) {
 				model.addAttribute("administrativo", "active");
 				model.addAttribute("nuevasCitas", userService.getNuevasCitas());
@@ -99,9 +114,9 @@ public class TrabajadorController {
 					Channel channel = null;
 					try (Connection connection = factory.newConnection()) {
 						channel = connection.createChannel();
-						channel.exchangeDeclare(EXCHANGE_NAME_ADMINISTRATIVO, "topic", true);
+						channel.exchangeDeclare(EXCHANGE_NAME, "topic", true);
 						String queueName = channel.queueDeclare().getQueue();
-						channel.queueBind(queueName, EXCHANGE_NAME_ADMINISTRATIVO, "admin.#");
+						channel.queueBind(queueName, EXCHANGE_NAME, "admin.#");
 
 						MiConsumer consumer = new MiConsumer(channel);
 						boolean autoack = true;
@@ -170,6 +185,23 @@ public class TrabajadorController {
 		return url;
 	}
 
+	@PostMapping("/getMsg")
+	public ResponseEntity<String> getMsg() throws JSONException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json; charset=utf-8");
+
+		return new ResponseEntity<String>(new Gson().toJson(message), headers, HttpStatus.OK);
+	}
+
+	@PostMapping("/reloadData")
+	public ResponseEntity<String> realodMsg() throws JSONException {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json; charset=utf-8");
+		message = null;
+
+		return new ResponseEntity<String>("Reloaded", headers, HttpStatus.OK);
+	}
+
 	public class MiConsumer extends DefaultConsumer {
 
 		public MiConsumer(Channel channel) {
@@ -183,7 +215,6 @@ public class TrabajadorController {
 
 			message = new String(body, "UTF-8");
 		}
-
 	}
 
 	@GetMapping("/generateCitas")

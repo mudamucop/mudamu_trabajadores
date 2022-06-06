@@ -38,7 +38,7 @@
                         <div th:each="prediccion: ${predicciones}" class="accordion-item">
                             <tr th:id="heading+${prediccion.prediccionID}" class="accordion-toggle collapsed">
                                 <td th:if="${prediccion.citaSolicitada} == 0" class="accordion-header expand-button" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true">+</td>
-                                <td th:if="${prediccion.citaSolicitada} == 1" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"><i class="fas fa-check text-success"></i></td>
+                                <td th:if="${prediccion.citaSolicitada} == 1" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"><i class="fas fa-check text-warning"></i></td>
                                 <td th:if="${prediccion.citaSolicitada} == -1" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"><i class="fas fa-check text-success"></i></td>
                                 <td th:text="${prediccion.nombre}" class="accordion-header nombre" type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"></td>
                                 <td th:text="${prediccion.apellido1}" class="accordion-header " type="button" data-bs-toggle="collapse" th:attr="data-bs-target='#collapseO'+${prediccion.prediccionID},aria-controls='collapseO'+${prediccion.prediccionID}" aria-expanded="true"></td>
@@ -54,7 +54,8 @@
                                 <td colspan="6" th:id="collapseO+${prediccion.prediccionID}" class="collapse p-3">
                                     <div class="row gx-5">
                                         <div class="col col-2">
-                                            <div class="text-success" th:if="${prediccion.citaSolicitada} == 1" id="success"><i class="fas fa-check"></i> CITA SOLICITADA </div>
+                                            <div class="text-success" th:if="${prediccion.citaSolicitada} == -1" id="success"><i class="fas fa-check"></i> RESERVADA </div>
+                                            <div class="text-warning" th:if="${prediccion.citaSolicitada} == 1" id="success"><i class="fas fa-check"></i> CITA SOLICITADA </div>
                                             <div th:if="${prediccion.citaSolicitada} == 0" class="d-grid gap-2 col-2 mx-auto">
                                                 <button th:data-parentid="heading+${prediccion.prediccionID}" type="button" class="btn btn-primary citar">SOLICITAR CITA</button>
                                             </div>
