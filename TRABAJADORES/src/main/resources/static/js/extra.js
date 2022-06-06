@@ -43,23 +43,50 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     let items = document.querySelectorAll('.bt-gravedad');
-    items.forEach(function(item) {
+    items.forEach(function (item) {
         item.addEventListener('mouseover', handleMouseOver, false);
         item.addEventListener('mouseout', handleMouseOut, false);
         item.addEventListener('click', handleClick, false);
     });
 
     function handleClickable(e) {
-        console.log(this);
+        //console.log(this);
         if (this.classList.contains('collapsed')) {
             this.classList.remove('collapsed');
         } else {
             this.classList.add('collapsed');
+            $.ajax({
+                //url: '/trabajadores/getSintomas',
+                url: "/getSintomas",
+                type: "POST",
+                data: { 'prd': this.parentElement.id },
+                contentType: "application/json",
+                success: function (list) {
+                    var result = JSON.stringify(list);
+                    var result = JSON.parse(result);
+                    let j = 0;
+                    $.each(result, function (i, item) {
+                        while (j < item.length) {
+                            console.log(item[j].nombre);
+                            j++;
+                            var rows = "<tr>"
+                                + "<td>" + item[0].nombre + "</td>"
+                                + "</tr>";
+                            $('#datatable').append(rows);
+                        }
+                    });
+                    //setTimeout(function(){location.reload();}, 1500);
+                },
+                error: function () {
+
+                },
+            });
+            //console.log(this.parentElement.id);
         }
     }
 
     let clickables = document.querySelectorAll('.accordion-header');
-    clickables.forEach(function(clickable) {
+    clickables.forEach(function (clickable) {
         clickable.addEventListener('click', handleClickable, false);
     });
 
@@ -71,11 +98,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         $.ajax({
             url: '/trabajadores/requestCita',
             type: "POST",
-            data: {'data': num+"/"+cate},
+            data: { 'data': num + "/" + cate },
             contentType: "application/json",
             success: function () {
                 $("#success").modal('show');
-                setTimeout(function(){location.reload();}, 1500);
+                setTimeout(function () { location.reload(); }, 1500);
             },
             error: function () {
 
@@ -84,7 +111,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     let botonesCita = document.querySelectorAll('.citar');
-    botonesCita.forEach(function(botonCita) {
+    botonesCita.forEach(function (botonCita) {
         botonCita.addEventListener('click', handleClickBotonCita, false);
     });
 

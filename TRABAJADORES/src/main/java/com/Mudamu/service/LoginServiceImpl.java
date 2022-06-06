@@ -14,9 +14,12 @@ import com.Mudamu.model.CitasMedico;
 import com.Mudamu.model.Medico;
 import com.Mudamu.model.Prediccion;
 import com.Mudamu.model.Predicciones;
+import com.Mudamu.model.SintomasPrediccion;
+import com.Mudamu.model.SintomasPredicciones;
 import com.Mudamu.model.User;
 import com.Mudamu.rest.CitaRESTClient;
 import com.Mudamu.rest.PrediccionRESTClient;
+import com.Mudamu.rest.SintoEnferRESTClient;
 import com.Mudamu.rest.UserRESTClient;
 
 @Service
@@ -30,6 +33,9 @@ public class LoginServiceImpl implements LoginService {
 
 	@Autowired
 	CitaRESTClient citaRESTClient;
+
+	@Autowired
+	SintoEnferRESTClient sintEnferRESTClient;
 
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -149,5 +155,12 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public void avisoUpdate() {
 		citaRESTClient.avisoCita();
+	}
+
+	@Override
+	public Object getSintomas(String predId) {
+		SintomasPredicciones sint = sintEnferRESTClient.getSintomas(predId);
+
+		return sint;
 	}
 }

@@ -30,5 +30,7 @@ public interface LoginService {
     public void crearCita(String predID, String fecha_hora, Integer pacienteID);
 
     public void avisoUpdate();
+
+    public Object getSintomas(String predId);
 }
 

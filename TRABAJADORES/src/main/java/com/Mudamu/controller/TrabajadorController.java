@@ -185,6 +185,14 @@ public class TrabajadorController {
 		return url;
 	}
 
+	@PostMapping("/getSintomas")
+	public ResponseEntity<String> getSintomas(Model model, @RequestBody String data) throws Exception {
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json; charset=utf-8");
+
+		return new ResponseEntity<String>(new Gson().toJson(userService.getSintomas(data.split("=")[1].split("g")[1])), headers, HttpStatus.OK);
+	}
+
 	@PostMapping("/getMsg")
 	public ResponseEntity<String> getMsg() throws JSONException {
 		HttpHeaders headers = new HttpHeaders();

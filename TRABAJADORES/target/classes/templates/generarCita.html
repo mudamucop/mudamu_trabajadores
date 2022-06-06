@@ -219,15 +219,16 @@
     function ajaxRequest() {
         $.ajax({
             type: "POST",
-            url: "/trabajadores/getMsg",
-            //url: "/getMsg",
+            //url: "/trabajadores/getMsg",
+            url: "/getMsg",
             success: function (data) {
                 //console.log(data);
                 if (data != null) {
                     $("#exampleModal").modal('show');
                     $.ajax({
                         type: "POST",
-                        url: "/trabajadores/reloadData",
+                        //url: "/trabajadores/reloadData",
+                        url:"/reloadData",
                         success: function (data) {
                         }
                     });
