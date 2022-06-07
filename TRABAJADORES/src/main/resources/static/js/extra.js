@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             this.classList.add('collapsed');
             var id = this.parentElement.id;
             $.ajax({
-                url: '/trabajadores/getSintomas',
-                //url: "/getSintomas",
+                //url: '/trabajadores/getSintomas',
+                url: "/getSintomas",
                 type: "POST",
                 data: { 'prd':  id},
                 contentType: "application/json",
@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 },
             });
             $.ajax({
-                url: '/trabajadores/getEnfermedades',
-                //url: "/getEnfermedades",
+                //url: '/trabajadores/getEnfermedades',
+                url: "/getEnfermedades",
                 type: "POST",
                 data: { 'prd':  id},
                 contentType: "application/json",
