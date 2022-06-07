@@ -17,8 +17,8 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-body">
-                    Renovar pag, prediccion nueva
+                <div class="modal-body" id="modalBody">
+                    Renovar pag, 
                 </div>
             </div>
         </div>
@@ -76,16 +76,17 @@
     function ajaxRequest() {
         $.ajax({
             type: "POST",
-            //url: "/trabajadores/getMsg",
-            url: "/getMsg",
+            url: "/trabajadores/getMsg",
+            //url: "/getMsg",
             success: function (data) {
-                console.log(data);
                 if (data != null) {
+                    if (data.split("/(\s+)/").filter(e => e.length > 1)) document.getElementById("modalBody").appendChild(document.createTextNode(data));
+                    else document.getElementById("modalBody").appendChild(document.createTextNode("prediccion nueva"));
                     $("#exampleModal").modal('show');
                     $.ajax({
                         type: "POST",
                         url: "/trabajadores/reloadData",
-                        //url:"/reloadData",
+                        //url: "/reloadData",
                         success: function (data) {
                         }
                     });
