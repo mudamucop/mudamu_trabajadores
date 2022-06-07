@@ -1,5 +1,7 @@
 package com.Mudamu;
 
+import java.security.SecureRandom;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,7 +57,7 @@ public class WebSecurityConfig  extends  WebSecurityConfigurerAdapter{
 	*/
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-		bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
+		bCryptPasswordEncoder = new BCryptPasswordEncoder(4, new SecureRandom());
         return bCryptPasswordEncoder;
     }
     

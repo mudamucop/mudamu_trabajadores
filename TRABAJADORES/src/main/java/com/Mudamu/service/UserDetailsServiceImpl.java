@@ -30,9 +30,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Set<GrantedAuthority> grantList = new HashSet<GrantedAuthority>(); 
 		
 		//grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");//(role.getDescription());
-		
-		UserDetails user = (UserDetails) new User(username,appUser.getPassword(),grantList);
-		
+		//UserDetails user = (UserDetails) new User(username,appUser.getSalt() + appUser.getPassword(),grantList);
+		UserDetails user = (UserDetails) new User(username,  appUser.getPassword(),grantList);
+
+
 		return user;
 	}
 }

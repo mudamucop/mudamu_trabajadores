@@ -6,9 +6,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import com.Mudamu.model.CitasMedico;
 import com.Mudamu.model.Enfermedades;
@@ -22,6 +24,7 @@ import com.Mudamu.rest.CitaRESTClient;
 import com.Mudamu.rest.PrediccionRESTClient;
 import com.Mudamu.rest.SintoEnferRESTClient;
 import com.Mudamu.rest.UserRESTClient;
+import com.Mudamu.util.Saltgenerator;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -41,6 +44,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	Saltgenerator saltgen;
+
+	public UserServiceImpl(){
+		saltgen = new Saltgenerator();
+	}
+
 	private boolean checkUsernameAvailable(Medico user) throws Exception {
 		Medico userFound = userRESTClient.getUserName(user.getUsername());
 		if (userFound.getUsername() != null) {
@@ -57,7 +66,10 @@ public class UserServiceImpl implements UserService {
 		user.setApellido2(user2.getApellido2());
 		user.setNombre(user2.getNombre());
 		user.setEmail(user2.getEmail());
-		user.setSalt("salt");
+
+		String generatedString = saltgen.cadenaAleatoria();
+		user.setSalt(generatedString);
+
 		user.setTelefono(user2.getTelefono());
 		user.setTipo(user2.getTipo());
 		user.setPassword(user2.getPassword());

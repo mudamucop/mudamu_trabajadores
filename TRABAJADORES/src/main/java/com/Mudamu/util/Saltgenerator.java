@@ -9,7 +9,7 @@ public class Saltgenerator {
     	
     }
 
-    public static String cadenaAleatoria() {
+    public String cadenaAleatoria() {
     	
         String banco = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         String cadena = "";
@@ -21,7 +21,7 @@ public class Saltgenerator {
         return cadena;
     }
 
-    public static int numeroAleatorioEnRango(int minimo, int maximo) {
+    public int numeroAleatorioEnRango(int minimo, int maximo) {
         // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
     }
