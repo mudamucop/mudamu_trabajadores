@@ -3,6 +3,7 @@
 
 <head>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link href="css/styles.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -36,8 +37,8 @@
                             <tr>
                                 <th scope="col">Tarjeta Sanitaria</th>
                                 <th scope="col">Nombre</th>
-                                <th scope="col">Apellido1</th>
-                                <th scope="col">Apellido2</th>
+                                <th scope="col">Primer Apellido</th>
+                                <th scope="col">Segundo Apellido</th>
                                 <th scope="col">Categoría</th>
                             </tr>
                         </thead>
@@ -97,7 +98,7 @@
             $.ajax({
                 type: "POST",
                 url: "/trabajadores/busqueda",
-                //url: "/busqueda", local
+                //url: "/busqueda",
                 data: {
                     tr: $("#value").val(),
                 },
@@ -107,12 +108,18 @@
 
                         $('#empty').addClass("d-none");
                         $.each(list, function (i, item) {
+                            let clase = "";
+                            if(item.nombreCategoria == 'GRAVE')clase = 'bg-danger';
+                            else if(item.nombreCategoria == 'MODERADO')clase = 'bg-warning';
+                            else if(item.nombreCategoria == 'LEVE')clase = 'bg-success';
+                            else clase = 'bg-dark';
+
                             var rows = "<tr>"
                                 + "<td>" + item.tarjetaSanitaria + "</td>"
                                 + "<td>" + item.nombre + "</td>"
                                 + "<td>" + item.apellido1 + "</td>"
                                 + "<td>" + item.apellido2 + "</td>"
-                                + "<td>" + item.nombreCategoria + "</td>"
+                                + "<td><span class= badge><span class="+clase+ " >"+ item.nombreCategoria + "</span></span></td>"
                                 + "<td><button onclick='display(" + item.prediccionID + ")' class='btn btn-primary btn-sm align-top'>Elegir</button></td>"
                                 + "</tr>";
                             $('#datatable').append(rows);

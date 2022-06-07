@@ -22,7 +22,7 @@
             <div class="card-header">
                 <i class="fas fa-briefcase-medical me-1"></i>Predicciones
             </div>
-            <div class="container-fluid table-responsive m-0 p-0">
+            <div id="table" class="container-fluid  m-0 p-0">
                 <table class="table m-0 p-0">
                     <thead>
                         <tr>
@@ -98,7 +98,8 @@
                                                         <div class="row">
                                                             <div class="col-5">Síntomas</div>
                                                             <div class="col">
-                                                                <table th:id="datatable+${prediccion.prediccionID}"></table>
+                                                                <table th:id="datatable+${prediccion.prediccionID}">
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -108,7 +109,8 @@
                                                         <div class="row">
                                                             <div class="col-5">Enfermedades</div>
                                                             <div class="col">
-                                                                <table th:id="datatableE+${prediccion.prediccionID}"></table>
+                                                                <table th:id="datatableE+${prediccion.prediccionID}">
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -132,4 +134,14 @@
     function expand(e) {
         console.log(e);
     }
+
+    $(window).resize(function () {
+        if (window.innerWidth <= 650) $('#table').addClass('table-responsive');
+        else $('#table').removeClass('table-responsive');
+    });
+
+    window.onload = function () {
+        if (window.innerWidth <= 650) $('#table').addClass('table-responsive');
+        else $('#table').removeClass('table-responsive');
+    };
 </script>

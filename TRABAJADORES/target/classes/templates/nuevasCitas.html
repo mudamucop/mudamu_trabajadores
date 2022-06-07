@@ -13,8 +13,8 @@
                         <tr>
                             <th scope="col">Tarjeta Sanitaria</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Apellido1</th>
-                            <th scope="col">Apellido2</th>
+                            <th scope="col">Primer Apellido</th>
+                            <th scope="col">Segundo Apellido</th>
                             <th scope="col">Categoría</th>
                         </tr>
                     </thead>
@@ -24,10 +24,14 @@
                             <td th:text="${cita.nombre}"></td>
                             <td th:text="${cita.apellido1}"></td>
                             <td th:text="${cita.apellido2}"></td>
-                            <td><span th:if="${cita.nombreCategoria} == 'GRAVE'" th:text="${cita.nombreCategoria}" class="badge bg-danger"></span>
-                                <span th:if="${cita.nombreCategoria} == 'MODERADO'" th:text="${cita.nombreCategoria}" class="badge bg-warning"></span>
-                                <span th:if="${cita.nombreCategoria} == 'LEVE'" th:text="${cita.nombreCategoria}" class="badge bg-success"></span>
-                                <span th:if="${cita.nombreCategoria} == 'DESCONOCIDO'" th:text="${cita.nombreCategoria}" class="badge bg-dark"></span>
+                            <td><span th:if="${cita.nombreCategoria} == 'GRAVE'" th:text="${cita.nombreCategoria}"
+                                    class="badge bg-danger"></span>
+                                <span th:if="${cita.nombreCategoria} == 'MODERADO'" th:text="${cita.nombreCategoria}"
+                                    class="badge bg-warning"></span>
+                                <span th:if="${cita.nombreCategoria} == 'LEVE'" th:text="${cita.nombreCategoria}"
+                                    class="badge bg-success"></span>
+                                <span th:if="${cita.nombreCategoria} == 'DESCONOCIDO'" th:text="${cita.nombreCategoria}"
+                                    class="badge bg-dark"></span>
                             </td>
                         </tr>
                     </tbody>
