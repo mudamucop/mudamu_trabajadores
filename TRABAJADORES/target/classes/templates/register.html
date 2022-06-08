@@ -5,7 +5,6 @@
     <link href="css/styles.css" rel="stylesheet">
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
 
 </head>
 
@@ -43,8 +42,7 @@
                                                 <input type="password" id="inputValidationEx2"
                                                     class="form-control validate" th:field="${userForm.password}"
                                                     required>
-                                                <label for="inputLastName"><i class="fas fa-lock prefix"></i>
-                                                    Password</label>
+                                                <label for="inputLastName">Password</label>
                                             </div>
 
                                         </div>
@@ -52,20 +50,16 @@
                                             <div class="alert alert-warning password-alert" role="alert">
                                                 <ul>
                                                     <li class="requirements leng"><i
-                                                            class="fas fa-check green-text"></i><i
-                                                            class="fas fa-times red-text"></i> Your password
+                                                            class="fas fa-check green-text"></i> Your password
                                                         must have at least 8 chars.</li>
                                                     <li class="requirements big-letter"><i
-                                                            class="fas fa-check green-text"></i><i
-                                                            class="fas fa-times red-text"></i> Your password
+                                                            class="fas fa-check green-text"></i> Your password
                                                         must have at least 1 big letter.</li>
-                                                    <li class="requirements num"><i
-                                                            class="fas fa-check green-text"></i><i
-                                                            class="fas fa-times red-text"></i> Your password
+                                                    <li class="requirements num"><i class="fas fa-check green-text"></i>
+                                                        Your password
                                                         must have at least 1 number.</li>
                                                     <li class="requirements special-char"><i
-                                                            class="fas fa-check green-text"></i><i
-                                                            class="fas fa-times red-text"></i> Your password
+                                                            class="fas fa-check green-text"></i> Your password
                                                         must have at least 1 special char.</li>
                                                 </ul>
                                             </div>
