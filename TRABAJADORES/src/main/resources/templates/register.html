@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
+    <link href="css/styles.css" rel="stylesheet">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="bootstrap-5.1.3-dist/js/bootstrap.min.js"></script>
+
+</head>
+
 <main>
     <div class="container">
         <div class="row justify-content-center">
@@ -12,71 +20,111 @@
                     <div class="card-body">
                         <form th:object="${userForm}" th:action="@{/signup}" method="post">
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-1">
                                     <div class="form-floating mb-3 mb-md-0">
                                         <input class="form-control" id="floatingInput" type="text"
                                             th:field="${userForm.username}" th:disabled="${disableFields}" required />
                                         <label for="inputFirstName">Username</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="floatingInput" type="password"
-                                            th:field="${userForm.password}" th:disabled="${disableFields}" required />
-                                        <label for="inputLastName">Password</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="floatingInput" type="text"
-                                            th:field="${userForm.nombre}" th:disabled="${disableFields}" required />
-                                        <label for="inputLastName">Nombre</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="floatingInput" type="text"
-                                            th:field="${userForm.apellido1}" th:disabled="${disableFields}" required />
-                                        <label for="inputLastName">Apellido1</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="floatingInput" type="text"
-                                            th:field="${userForm.apellido2}" th:disabled="${disableFields}" required />
-                                        <label for="inputLastName">Apellido2</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input class="form-control" id="floatingInput" type="tel"
-                                            th:field="${userForm.telefono}" th:disabled="${disableFields}" required />
-                                        <label for="inputLastName">Telefono</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="control">
-                                        <label class="radio">
-                                            <input type="radio" th:field="${userForm.tipo}" id="medico" name="Medico"
-                                                value="Medico" checked>
-                                            Medico
-                                        </label>
-                                        <label class="radio">
-                                            <input type="radio" name="administrativo" th:field="${userForm.tipo}"
-                                                id="administrativo" value="Administrativo">
-                                            Administrativo
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+
+                                <div class="col-md-6 mb-1">
                                     <div class="form-floating">
                                         <input class="form-control" id="floatingInput" type="email"
                                             th:field="${userForm.email}" th:disabled="${disableFields}" required />
                                         <label for="inputLastName">Email</label>
                                     </div>
                                 </div>
+
+                                <div class="container-fluid py-0 my-0">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-1">
+                                            <div class="form-floating">
+                                                <input type="password" id="inputValidationEx2"
+                                                    class="form-control validate" th:field="${userForm.password}"
+                                                    required>
+                                                <label for="inputLastName"><i class="fas fa-lock prefix"></i>
+                                                    Password</label>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-12 mb-1">
+                                            <div class="alert alert-warning password-alert" role="alert">
+                                                <ul>
+                                                    <li class="requirements leng"><i
+                                                            class="fas fa-check green-text"></i><i
+                                                            class="fas fa-times red-text"></i> Your password
+                                                        must have at least 8 chars.</li>
+                                                    <li class="requirements big-letter"><i
+                                                            class="fas fa-check green-text"></i><i
+                                                            class="fas fa-times red-text"></i> Your password
+                                                        must have at least 1 big letter.</li>
+                                                    <li class="requirements num"><i
+                                                            class="fas fa-check green-text"></i><i
+                                                            class="fas fa-times red-text"></i> Your password
+                                                        must have at least 1 number.</li>
+                                                    <li class="requirements special-char"><i
+                                                            class="fas fa-check green-text"></i><i
+                                                            class="fas fa-times red-text"></i> Your password
+                                                        must have at least 1 special char.</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <!--<input class="form-control" id="floatingInput" type="password"
+                                            th:field="${userForm.password}" th:disabled="${disableFields}" required />
+                                        <label for="inputLastName">Password</label>-->
+                                </div>
+
+                                <div class="col-md-6 mb-1">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="floatingInput" type="text"
+                                            th:field="${userForm.nombre}" th:disabled="${disableFields}" required />
+                                        <label for="inputLastName">Nombre</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="floatingInput" type="text"
+                                            th:field="${userForm.apellido1}" th:disabled="${disableFields}" required />
+                                        <label for="inputLastName">Apellido1</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="floatingInput" type="text"
+                                            th:field="${userForm.apellido2}" th:disabled="${disableFields}" required />
+                                        <label for="inputLastName">Apellido2</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <div class="form-floating">
+                                        <input class="form-control" id="floatingInput" type="tel"
+                                            th:field="${userForm.telefono}" th:disabled="${disableFields}" required />
+                                        <label for="inputLastName">Telefono</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <div class="control row">
+                                        <label class="radio col-md-6">
+                                            <input type="radio" th:field="${userForm.tipo}" id="medico" name="Medico"
+                                                value="Medico" checked>
+                                            Medico
+                                        </label>
+                                        <label class="radio col-md-6">
+                                            <input type="radio" name="administrativo" th:field="${userForm.tipo}"
+                                                id="administrativo" value="Administrativo">
+                                            Administrativo
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="mt-4 mb-0">
-                                    <div class="d-grid"><button type="submit" class="btn btn-primary btn-block">Create
+                                    <div class="d-grid"><button type="submit" id="confirm"
+                                            class="d-none btn btn-primary btn-block">Create
                                             Account</a></div>
                                 </div>
                         </form>
@@ -88,3 +136,87 @@
 </main>
 
 </html>
+
+<script>
+    $(function () {
+        var $password = $(".form-control[type='password']");
+        var $passwordAlert = $(".password-alert");
+        var $requirements = $(".requirements");
+        var leng, bigLetter, num, specialChar;
+        var $leng = $(".leng");
+        var $bigLetter = $(".big-letter");
+        var $num = $(".num");
+        var $specialChar = $(".special-char");
+        var specialChars = "!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?`~";
+        var numbers = "0123456789";
+
+        $requirements.addClass("wrong");
+        $password.on("focus", function () { $passwordAlert.show(); });
+
+        $password.on("input blur", function (e) {
+            var el = $(this);
+            var val = el.val();
+            $passwordAlert.show();
+
+            if (val.length < 8) {
+                leng = false;
+            }
+            else if (val.length > 7) {
+                leng = true;
+            }
+
+
+            if (val.toLowerCase() == val) {
+                bigLetter = false;
+            }
+            else { bigLetter = true; }
+
+            num = false;
+            for (var i = 0; i < val.length; i++) {
+                for (var j = 0; j < numbers.length; j++) {
+                    if (val[i] == numbers[j]) {
+                        num = true;
+                    }
+                }
+            }
+
+            specialChar = false;
+            for (var i = 0; i < val.length; i++) {
+                for (var j = 0; j < specialChars.length; j++) {
+                    if (val[i] == specialChars[j]) {
+                        specialChar = true;
+                    }
+                }
+            }
+
+            if (leng == true && bigLetter == true && num == true && specialChar == true) {
+                $(this).addClass("valid").removeClass("invalid");
+                $requirements.removeClass("wrong").addClass("good");
+                $passwordAlert.removeClass("alert-warning").addClass("alert-success");
+                $("#confirm").removeClass("d-none");
+            }
+            else {
+                $("#confirm").addClass("d-none");
+                $(this).addClass("invalid").removeClass("valid");
+                $passwordAlert.removeClass("alert-success").addClass("alert-warning");
+
+                if (leng == false) { $leng.addClass("wrong").removeClass("good"); }
+                else { $leng.addClass("good").removeClass("wrong"); }
+
+                if (bigLetter == false) { $bigLetter.addClass("wrong").removeClass("good"); }
+                else { $bigLetter.addClass("good").removeClass("wrong"); }
+
+                if (num == false) { $num.addClass("wrong").removeClass("good"); }
+                else { $num.addClass("good").removeClass("wrong"); }
+
+                if (specialChar == false) { $specialChar.addClass("wrong").removeClass("good"); }
+                else { $specialChar.addClass("good").removeClass("wrong"); }
+            }
+
+
+            if (e.type == "blur") {
+                $passwordAlert.hide();
+            }
+        });
+    });
+</script>
