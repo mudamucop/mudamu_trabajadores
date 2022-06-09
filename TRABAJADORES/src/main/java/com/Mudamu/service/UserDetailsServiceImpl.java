@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,12 +24,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		userRESTClient = new UserRESTClient();
 		
-		//GrantedAuthority grantedAuthority;
 		Medico appUser = userRESTClient.getUserName(username);
 		Set<GrantedAuthority> grantList = new HashSet<GrantedAuthority>(); 
 		
-		//grantedAuthority = new SimpleGrantedAuthority("ROLE_USER");//(role.getDescription());
-		//UserDetails user = (UserDetails) new User(username,appUser.getSalt() + appUser.getPassword(),grantList);
 		UserDetails user = (UserDetails) new User(username,  appUser.getPassword(),grantList);
 
 

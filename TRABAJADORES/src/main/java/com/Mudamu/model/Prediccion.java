@@ -1,11 +1,9 @@
 package com.Mudamu.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement
 @XmlType(propOrder = { "prediccionID", "nombre", "apellido1", "apellido2", "fecha_hora", "categoriaID",

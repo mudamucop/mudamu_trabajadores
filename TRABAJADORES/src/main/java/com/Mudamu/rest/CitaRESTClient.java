@@ -1,9 +1,5 @@
 package com.Mudamu.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -12,8 +8,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.Mudamu.model.CitasMedico;
 import com.Mudamu.model.Medico;
-import com.Mudamu.model.Prediccion;
-import com.Mudamu.model.Predicciones;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -22,8 +16,6 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 @Service
 public class CitaRESTClient {
-	// localhost -> Servidor IA
-
 	String urlDDBBService = "http://mudamudb.duckdns.org/mudamuMysql/service/cita";
 
 	ClientConfig clientConfig = new DefaultClientConfig();

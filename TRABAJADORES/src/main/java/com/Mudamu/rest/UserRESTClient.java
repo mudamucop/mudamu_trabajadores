@@ -11,7 +11,6 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import com.Mudamu.model.Medico;
-import com.Mudamu.model.Predicciones;
 import com.Mudamu.model.User;
 
 @Service

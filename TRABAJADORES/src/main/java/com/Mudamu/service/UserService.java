@@ -1,14 +1,10 @@
 package com.Mudamu.service;
 
-import java.util.Optional;
 
 import com.Mudamu.model.Medico;
 import com.Mudamu.model.User;
-import com.google.gson.JsonElement;
 
 public interface UserService {
-
-	//public Iterable<User> getAllUsers();
 
 	public Medico createUser(Medico user) throws Exception;
 

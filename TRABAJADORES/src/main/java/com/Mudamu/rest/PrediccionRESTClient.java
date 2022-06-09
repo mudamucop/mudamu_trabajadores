@@ -1,13 +1,8 @@
 package com.Mudamu.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.Mudamu.model.Medico;
-import com.Mudamu.model.Prediccion;
 import com.Mudamu.model.Predicciones;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -17,7 +12,6 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 
 @Service
 public class PrediccionRESTClient {
-	// localhost -> Servidor IA
 
 	String urlDDBBService = "http://mudamudb.duckdns.org/mudamuMysql/service/pred";
 

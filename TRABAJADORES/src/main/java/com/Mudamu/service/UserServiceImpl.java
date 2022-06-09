@@ -6,25 +6,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 import com.Mudamu.model.CitasMedico;
 import com.Mudamu.model.Enfermedades;
 import com.Mudamu.model.Medico;
-import com.Mudamu.model.Prediccion;
 import com.Mudamu.model.Predicciones;
-import com.Mudamu.model.SintomasPrediccion;
 import com.Mudamu.model.SintomasPredicciones;
 import com.Mudamu.model.User;
 import com.Mudamu.rest.CitaRESTClient;
 import com.Mudamu.rest.PrediccionRESTClient;
 import com.Mudamu.rest.SintoEnferRESTClient;
 import com.Mudamu.rest.UserRESTClient;
-import com.Mudamu.util.Saltgenerator;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -44,12 +36,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	Saltgenerator saltgen;
-
-	public UserServiceImpl(){
-		saltgen = new Saltgenerator();
-	}
-
 	private boolean checkUsernameAvailable(Medico user) throws Exception {
 		Medico userFound = userRESTClient.getUserName(user.getUsername());
 		if (userFound.getUsername() != null) {
@@ -66,9 +52,7 @@ public class UserServiceImpl implements UserService {
 		user.setApellido2(user2.getApellido2());
 		user.setNombre(user2.getNombre());
 		user.setEmail(user2.getEmail());
-
-		String generatedString = saltgen.cadenaAleatoria();
-		user.setSalt(generatedString);
+		user.setSalt("salt");
 
 		user.setTelefono(user2.getTelefono());
 		user.setTipo(user2.getTipo());
@@ -83,27 +67,14 @@ public class UserServiceImpl implements UserService {
 
 	protected void mapUser(Medico from, Medico to) {
 		to.setUsername(from.getUsername());
-		/*
-		 * to.setName(from.getName());
-		 * to.setSurname(from.getSurname());
-		 * to.setEmail(from.getEmail());
-		 */
 	}
 
 	@Override
 	public Medico getLoggedUser() throws Exception {
-		// Obtener el usuario logeado
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		UserDetails loggedUser = null;
-
-		// Verificar que ese objeto traido de sesion es el usuario
-		if (principal instanceof UserDetails) {
-			loggedUser = (UserDetails) principal;
-		}
-
 		Medico myUser = userRESTClient
-				.getUserName(loggedUser.getUsername());
+				.getUserName(((UserDetails) principal).getUsername());
 
 		return myUser;
 	}

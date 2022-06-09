@@ -1,7 +1,6 @@
 package com.Mudamu.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;

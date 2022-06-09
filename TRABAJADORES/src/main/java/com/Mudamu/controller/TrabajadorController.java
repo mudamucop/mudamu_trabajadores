@@ -2,36 +2,23 @@ package com.Mudamu.controller;
 
 import com.Mudamu.model.CitaMedico;
 import com.Mudamu.model.Medico;
-import com.Mudamu.model.Prediccion;
 import com.Mudamu.service.UserService;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeoutException;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.parser.Entity;
-import javax.xml.bind.util.JAXBResult;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -97,9 +84,6 @@ public class TrabajadorController {
 
 						channel.basicCancel(tag);
 						channel.close();
-
-						// model.addAttribute("citas", message);
-
 					} catch (IOException | TimeoutException e) {
 						e.printStackTrace();
 					}
@@ -132,9 +116,6 @@ public class TrabajadorController {
 
 						channel.basicCancel(tag);
 						channel.close();
-
-						// model.addAttribute("citas", message);
-
 					} catch (IOException | TimeoutException e) {
 						e.printStackTrace();
 					}
@@ -166,7 +147,6 @@ public class TrabajadorController {
 	@GetMapping("/predPag")
 	public String paginaPredicciones(Model model) throws Exception {
 		String url = "";
-		HttpServletResponse response;
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Medico user = userService.loadUserByUsername(((UserDetails) principal).getUsername());
@@ -241,7 +221,6 @@ public class TrabajadorController {
 		Medico user = userService.loadUserByUsername(((UserDetails) principal).getUsername());
 
 		if (user.getTipo().toLowerCase().equals("administrativo")) {
-			// Cita cita = new Cita();
 			model.addAttribute("administrativo", "active");
 			model.addAttribute("generate", "active");
 			url = "index";
@@ -266,7 +245,6 @@ public class TrabajadorController {
 
 	@PostMapping("/crearCita")
 	public String crearCita(Model model, @RequestBody String data) throws Exception {
-		String[] split = data.split("&");
 		String ts = data.split("&")[0].split("=")[1];
 
 		User user = userService.loadByTarjetaUser(ts);
@@ -281,8 +259,6 @@ public class TrabajadorController {
 	@PostMapping("/requestCita")
 	public String requestCita(Model model, @RequestBody String data) {
 		Integer catID = 0;
-
-		String separate = data.split("=")[1];
 
 		String cate = data.split("=")[1].split("%2F")[1];
 

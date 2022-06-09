@@ -3,7 +3,6 @@ package com.Mudamu.rest;
 import org.springframework.stereotype.Service;
 
 import com.Mudamu.model.Enfermedades;
-import com.Mudamu.model.SintomasPrediccion;
 import com.Mudamu.model.SintomasPredicciones;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
