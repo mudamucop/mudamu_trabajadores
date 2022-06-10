@@ -35,7 +35,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <div th:each="prediccion: ${predicciones}" class="accordion-item">
+                        <div th:each="prediccion: ${predicciones}" class="accordion-item d-none">
                             <tr th:id="heading+${prediccion.prediccionID}" class="accordion-toggle collapsed">
                                 <td th:if="${prediccion.citaSolicitada} == 0" class="accordion-header expand-button"
                                     type="button" data-bs-toggle="collapse"

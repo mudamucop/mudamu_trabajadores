@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     let j = 0;
                     $.each(result, function (i, item) {
                         while (j < item.length) {
-                            let nombre = item[j].nombre;
+                            let nombre = item[j].nombre + "   " + item[j].probabilidad + "%";
                             var rows = "<tr class='list-group-item'>"
                                 + "<td>" + nombre + "</td>"
                                 + "</tr>";
